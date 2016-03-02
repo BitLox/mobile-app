@@ -1,0 +1,146 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"BLE\"><param name=\"ios-package\" value=\"EVOBLE\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Toast\"><param name=\"ios-package\" value=\"Toast\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PinDialog\"><param name=\"ios-package\" value=\"CDVPinDialog\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CsZBar\"><param name=\"ios-package\" value=\"CsZBar\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"ios-package\" value=\"CDVNotification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ListPicker\"><param name=\"ios-package\" value=\"ListPicker\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"StatusBar\"><param name=\"ios-package\" value=\"CDVStatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"StatusBarOverlaysWebView\" value=\"true\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
+                            "count": 1
+                        }
+                    ],
+                    "/widget": []
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-ble": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "hu.dpal.phonegap.plugins.PinDialog": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "org.cloudsky.cordovaplugins.zbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-listpicker": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-plugin-ble/ble.js",
+            "id": "cordova-plugin-ble.BLE",
+            "pluginId": "cordova-plugin-ble",
+            "clobbers": [
+                "evothings.ble"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-toast/www/Toast.js",
+            "id": "cordova-plugin-x-toast.Toast",
+            "pluginId": "cordova-plugin-x-toast",
+            "clobbers": [
+                "window.plugins.toast"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-toast/test/tests.js",
+            "id": "cordova-plugin-x-toast.tests",
+            "pluginId": "cordova-plugin-x-toast"
+        },
+        {
+            "file": "plugins/hu.dpal.phonegap.plugins.PinDialog/www/pin.js",
+            "id": "hu.dpal.phonegap.plugins.PinDialog.PinDialog",
+            "pluginId": "hu.dpal.phonegap.plugins.PinDialog",
+            "merges": [
+                "window.plugins.pinDialog"
+            ]
+        },
+        {
+            "file": "plugins/org.cloudsky.cordovaplugins.zbar/www/zbar.js",
+            "id": "org.cloudsky.cordovaplugins.zbar.zBar",
+            "pluginId": "org.cloudsky.cordovaplugins.zbar",
+            "clobbers": [
+                "cloudSky.zBar"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-listpicker/www/ListPicker.js",
+            "id": "cordova-plugin-listpicker.ListPicker",
+            "pluginId": "cordova-plugin-listpicker",
+            "clobbers": [
+                "window.plugins.listpicker"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+            "id": "cordova-plugin-statusbar.statusbar",
+            "pluginId": "cordova-plugin-statusbar",
+            "clobbers": [
+                "window.StatusBar"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-statusbar": "2.0.0"
+    }
+}

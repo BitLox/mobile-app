@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, user-scalable=no
+		initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0" />
+
+	<title>BITLOX</title>
+
+    <link href="css/bootstrap.css" media="screen" rel="stylesheet">
+    <link href="css/bootstrap-theme.css" media="screen" rel="stylesheet">
+    <link href="css/webhdwallet.css" media="screen" rel="stylesheet">
+    
+	<style>
+/* 
+		@import 'ui/css/evothings-app.css';
+ */
+	</style>
+
+	<script>
+	// Redirect console.log to Evothings Workbench.
+	if (window.hyper && window.hyper.log) { console.log = hyper.log }
+	</script>
+
+
+</head>
+
+<body ontouchstart="" class="grell" id="theBody">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <a class="btn btn-navbar hidden" data-toggle="collapse" data-target=".nav-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </a>
+
+        <div class="navbar-header">
+            <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="#" id="brand"><img alt="BITLOX" src="css/bitlox-logo-40.png"></a><p class="navbar-text"><span id="status">Idling</span></p>
+        </div>
+        <div class="collapse navbar-collapse nav-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav" id="myTab">
+                <li class="hidden" id="li-splash_background" >
+                    <a data-toggle="tab" href="#splash_background" id="tab-splash_background">SPLASH</a>
+                </li>
+                <li class="" id="li-ble_scan" >
+                    <a data-toggle="tab" href="#ble_scan" id="tab-ble_scan">SCAN</a>
+                </li>
+                <li class="" id="li-bip32" >
+                    <a data-toggle="tab" href="#bip32" id="tab-bip32">WALLETS</a>
+                </li>
+                <li class="" id="li-walletDetail"><a data-toggle="tab" href="#walletDetail" id="tab-walletDetail">WALLET DETAIL</a></li>
+                <li class="hidden" id="li-sendPayment"><a data-toggle="tab" href="#sendPayment" id="tab-sign">SEND</a></li>
+                <li id="li-sign"><a data-toggle="tab" href="#sign" id="tab-sign">SIGN MESSAGE</a></li>
+            	<li id="li-verify"><a data-toggle="tab" href="#verify" id="tab-verify">VERIFY MESSAGE</a></li>
+            	<li id="li-extras"><a data-toggle="tab" href="#extras" id="tab-extras">EXTRAS</a></li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+    <div class="container">
+        <div class="tab-content">            
+
+<!--         	SPLASH-->
+            <div role="tabpanel" class="tab-pane fade in active" id="splash_background">
+			</div>
+
+<!--         	SCAN  -->
+            <div role="tabpanel" class="tab-pane fade" id="ble_scan">
+                    <fieldset>
+                        <span id="scanHeading" >
+                        <div class="panel panel-default"><div class="panel-heading scanDetailHeader" id="list_devices"><h2 class="panel-title h2" id="devices_table_title"><span class="walletLabel">Devices</span>&nbsp;<span id="walletListSpinner" class="glyphicon glyphicon-refresh right-refresh hidden"></h2></div> 
+                        <ul id="found-devices" class="dynamic"></ul>
+                        </div>
+                        </span>
+                        <span id="helpBlock_ble" class="help-block">Click "START/STOP SCAN" to show the BLE devices in range.</span>
+                    </fieldset>
+				<span id="stopStartScan">
+					<button type="button" onclick="app.onStartScanButton()"  class="btn btn-success btn-lg btn-block ">
+						START SCAN
+					</button>
+					&nbsp;
+					<button type="button" onclick="app.onStopScanButton()"  class="btn btn-danger btn-lg btn-block ">
+						STOP SCAN
+					</button>
+				</span>
+				<p id="scan-status" class="hidden">Scanning Paused</p>
+			</div>
+
+	
+<!--         	WALLETS LIST SCREEN -->
+            <div role="tabpanel" class="tab-pane fade" id="bip32">
+                <form class="form-horizontal" method="get" onsubmit="return false;">
+                    <fieldset>
+                        <legend>
+                        	<span id="device_name"></span> 
+                        	<span class="label label-success pull-right" id="device_status" style="cursor:pointer"></span>
+                        </legend>
+                        <span id="walletHeading" >
+							<div class="panel panel-default">
+								<div class="panel-heading walletDetailHeader" id="list_wallets" >
+								<h2 class="panel-title h2" id="wallet_table_title" >
+									<span class="walletLabel" id="wallet_list_text">LIST WALLETS</span>&nbsp;
+									<span id="walletListSpinner" class="glyphicon glyphicon-refresh right-refresh hidden"></span>
+								</h2>
+								</div>
+								<table class="table h3 table-striped" id="wallet_table" >
+									<tbody>
+									</tbody>
+								</table>
+							</div>
+                        </span>
+                    </fieldset>                        
+                    <span id="helpBlock" class="help-block">Tap "List Wallets" to show the wallets available on your BitLox.</span>
+
+					&nbsp;
+					&nbsp;
+					&nbsp;
+					<button type="button" id="newWalletButton" class="btn btn-success btn-lg btn-block ">NEW WALLET</button>
+ 					<span id="device_addr" class="hidden"></span>				
+ 				</form>
+			</div>
+
+	
+<!-- 
+					TAB WALLET DETAIL
+ -->
+			<div role="tabpanel" class="tab-pane fade" id="walletDetail">
+				<form class="form-horizontal" method="get" onsubmit="return false;">
+					<fieldset>
+              		<legend><small>WALLET DETAIL</small></legend>
+
+					<div class="panel panel-default">
+						<div class="panel-heading walletDetailHeader noselect" id="forceRefresh">
+							<h3 class="panel-title"><span class="walletLabel" id="loaded_wallet_name"></span>&nbsp;<span class="glyphicon glyphicon-refresh right-refresh"></span></h3>
+						</div>
+						<div class="panel-body balance-row">
+							<span id="balance_display" class="balance-left"><span class="glyphicon glyphicon-refresh spinning"></span></span>&nbsp;<span id="pending_display" class="balance-right"></span>
+						</div>
+					</div>
+					</fieldset>
+				</form>
+                   
+
+<!--  					&nbsp; -->
+					<button type="button" id="sendButton" class="btn btn-danger btn-lg btn-block ">SEND</button>
+					&nbsp;
+					&nbsp;
+					&nbsp;
+					<button type="button" id="receiveButton" class="open-qroverlay btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#qroverlay" >RECEIVE</button>
+					&nbsp;
+					&nbsp;
+					&nbsp;
+					<button type="button" id="signMessageButton" class="btn btn-default btn-lg btn-block signMessageClass">SIGN MESSAGE</button>
+					&nbsp;
+					&nbsp;
+					&nbsp;
+					<button type="button" id="transactionHistoryButton" class="btn btn-default btn-lg btn-block ">TRANSACTIONS</button>
+					 
+					&nbsp;
+					&nbsp;
+				
+				   <fieldset>
+                        <span id="transactionDisplayListHeading" >
+                        <div class="panel panel-default transactionDisplayListHeader">
+<!-- 
+                        <div class="panel-heading transactionDisplayListHeader" id="list_transactions">
+                        <h2 class="panel-title h2" id="transactions_table_title">
+                        <span class="walletLabel">Transactions History</span>&nbsp;<span id="walletListSpinner" class="glyphicon glyphicon-refresh right-refresh hidden">
+                        </h2>
+                        </div> 
+ -->
+                        <ul id="transactionDisplayList" class="dynamic selectable"></ul>
+                        </div>
+                        </span>
+                    </fieldset>
+
+				   <fieldset>
+                        <span id="bip32_display" class="expert">
+                        <div class="panel panel-default">
+                        <div class="panel-heading bip32_displayHeader" id="">
+                        <h2 class="panel-title " id="">
+                        <span class="bip32_header" >BIP32 xpub</span>&nbsp;<span class="label label-info network_label" id="network_label"></span>
+                        </h2>
+                        </div> 
+                        <textarea class="form-control selectable" id="bip32_source_key" placeholder="xpub..." style="height:115px"></textarea>
+                        </div>
+                        </span>
+                    </fieldset>
+
+
+
+<!-- 
+				<div class="panel panel-default expert" title="">
+					<label class="col-lg-12 control-label" >JSON</label>
+					<div class="col-lg-12">
+						<textarea class="form-control" style="height:125px" id="historyJSON"></textarea>
+					</div>
+				</div>
+				<div class="panel panel-default expert" title="">
+					<label class="col-lg-12 control-label" >STRING</label>
+					<div class="col-lg-12">
+						<textarea class="form-control" style="height:125px" id="historyString"></textarea>
+					</div>
+				</div>
+ -->
+
+
+
+
+				<div class="panel panel-default expert">
+                    <!-- Default panel contents -->
+
+                    <div class="panel-heading ">
+                        Receiving Addresses
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+
+                                <th>Address</th>
+
+                                <th>BTC</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="receive_table" class="selectable"></tbody>
+                    </table>
+                </div>
+
+                <div class="panel panel-default expert">
+                    <div class="panel-heading ">
+                        Change Addresses
+                    </div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+
+                                <th>Address</th>
+
+                                <th>BTC</th>
+                            </tr>
+                        </thead>
+                        <tbody id="change_table" class="selectable"></tbody>
+                    </table>
+                </div>
+				<div class=" expert" title="">
+					<label class="col-lg-12 control-label" >TRANSACTION HISTORY QUERY</label>
+					<div class="col-lg-12">
+						<textarea class="form-control selectable" style="height:125px" id="historyQueryString"></textarea>
+					</div>
+				</div>
+
+
+			</div>
+				
+				
+				<!-- ################################### -->
+				<div role="tabpanel" class="tab-pane fade" id="sendPayment">
+              <legend><small>PAYMENTS</small></legend>
+				
+                <div class="panel panel-default" id="payments_panel">
+                    <div class="panel-heading paymentHeader noselect" id="scanQRcode">
+                        <h3 class="panel-title"><span id="payment_title" class="paymentLabel"></span>&nbsp;<span class="glyphicon glyphicon-qrcode right-qr"></span></h3>
+                    </div>
+
+                    <div class="panel-body">
+                        <form class="form-horizontal" method="get" onsubmit="return false;">
+                            <fieldset>
+								
+<!-- 
+                                <div class="form-group " title="">
+                                    <label class="col-lg-12 control-label " >From <span class="label label-success small address-from-select" >Any address...</span></label>
+
+                                    <div class="col-lg-12 hidden">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+ -->
+                                <div class="form-group send_to_from" title="">
+                                    <label class="col-lg-12 control-label lefty" for="receiver_address">Send to</label>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <input class="form-control address-small selectable" id="receiver_address" placeholder="1EPKg1Fh..." type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" title="">
+                                    <label class="col-lg-12 control-label" for="receiver_monies">Amount</label>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <input class="form-control selectable" id="receiver_monies" placeholder="0" type="number" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group" title="">
+                                    <label class="col-lg-12 control-label" for="fee_monies">Fee</label>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <input class="form-control selectable" id="fee_monies" value="0.0001" type="number" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"><span class="help-block">Generally at least <span style="font-family:monospace">0.0001</span> BTC is recommended for speedy processing.</span>
+                                            </div>
+                                        </div>
+
+							<div class="standard">
+								<div id="rawTransactionStatus2" class="alert hidden rawTransactionStatus"></div>
+								<button type="button" id="signAndSendStandard" class="btn btn-danger btn-lg btn-block ">SIGN & PAY</button>
+							</div>
+
+                                    </div>
+                                </div>
+                                
+                                <div class="expert">
+								<div class="row">
+									<div class="col-lg-12">
+										<input class="btn btn-success btn-lg btn-block" id="generate_transaction" type="button" value="Generate transaction">
+									</div>
+								</div>							
+                                <div class="form-group" title="">
+                                    <label class="col-lg-12 control-label" for="receiver_monies">Raw transaction <span class="label label-success" id="unsignedtxlabel" style="display: none;">UNSIGNED</span> </label>
+
+                                    <div class="col-lg-12">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <textarea class="form-control selectable" id="output_transaction">
+												</textarea> 
+												<span class="help-block">Can check this transaction with <span style="font-family:monospace">bitcoind decoderawtransaction</span> or <a href="https://blockchain.info/decode-tx" target="_blank">Blockchain.info's Decode Transaction</a></span>
+                                            </div>
+                                        </div>
+                                        
+                                    </div>
+                                </div>
+
+                                <div class="form-group" title="">
+                                    <label class="col-lg-12 control-label" for="receiver_monies">Prepped transaction <span class="label label-warning" id="preptxlabel" style="display: none;">PREPARED</span></label>
+                                    <div class="col-lg-12">
+										<textarea class="form-control selectable" style="height:125px" id="device_signed_transaction"></textarea>
+										<br>
+										<input class="btn btn-warning btn-lg btn-block" id="sign_transaction_with_device" type="button" value="Sign with my BitLox">
+										<br>
+                                    </div>
+                                </div>
+                                <div class="form-group" title="">
+                                    <label class="col-lg-12 control-label" for="receiver_monies">Signed transaction  <span class="label label-danger" id="signedtxlabel" style="display: none;">SIGNED</span></label>
+                                    <div class="col-lg-12">
+										<textarea class="form-control selectable" style="height:125px" id="rawTransaction"></textarea>
+										<br>
+										<div id="rawTransactionStatus" class="alert hidden rawTransactionStatus">
+										</div>
+										<input type="button" value="Send to network (Pay)" id="rawSubmitBtn" class="btn btn-danger btn-lg btn-block">
+										<br>										
+                                    </div>
+                                </div>
+                            </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <!-- Sign -->
+			<div role="tabpanel" class="tab-pane fade" id="sign" data-target="signTab">
+			  <form action="/" class="form-horizontal" id="sgForm" method="get" name="sgForm">
+				<fieldset>
+				  <legend><small>SIGN MESSAGE</small></legend>
+				  <div class="form-group">
+					<label class="col-lg-12 control-label noselect" for="sgAddr">Address</label>
+					<div class="col-lg-12 controls">
+					  <input class="form-control signMessageClass address-small selectable" id="sgAddr" readonly="readonly" type="text" />
+					  <input class="hidden noselect" id="sgRoot" readonly="readonly" type="number" />
+					  <input class="hidden noselect" id="sgChain" readonly="readonly" type="number" />
+					  <input class="hidden noselect" id="sgIndex" readonly="readonly" type="number" />
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="col-lg-12 control-label noselect" for="sgMsg">Message</label>
+					<div class="col-lg-12 controls">
+					  <textarea class="form-control selectable" id="sgMsg" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+					  <textarea class="hidden noselect" id="sgMsgHidden" rows="5" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ></textarea>
+					</div>
+				  </div>
+				  <div class="form-group hidden noselect">
+					<label class="col-lg-12 control-label" for="sgType">Signature Type</label>
+					<div class="col-lg-12 controls">
+					  <div class="btn-group" data-toggle="buttons" id="sgType">
+						<label class="btn btn-default active" title="Introduced by inputs.io, see https://inputs.io/clearsign"><input name="inputs_io" type="radio" />Inputs.IO</label> <label class="btn btn-default" title="Introduced in Multibit release notes"><input name="multibit" type="radio" />Multibit</label> <label class="btn btn-default" title="Introduced in Bitcoin Armory"><input name="armory" type="radio" />Armory</label>
+					  </div>
+					</div>
+				  </div>
+				  <div class="form-group">
+					<label class="col-lg-12 control-label " for="sgSig">Signed Message</label>
+					<div class="col-lg-12 controls">
+					  <textarea class="form-control selectable" id="sgSig"  rows="4" spellcheck="false"></textarea>
+					</div>
+				  </div>
+					  <button class="btn btn-success btn-lg btn-block noselect" id="sgSignDevice" title="Signatures require a random number which means signing the same data twice results in different sigs" type="button">Sign Message with BitLox</button>
+				</fieldset>
+			  </form>
+			</div>
+			
+		<!-- Verify -->
+		<div role="tabpanel" class="tab-pane fade" id="verify">
+          <form action="/" class="form-horizontal" id="vrForm" method="get" name="vrForm">
+            <fieldset>
+              <legend><small>VERIFY MESSAGE</small></legend>
+              <div class="hidden">
+                <div class="col-lg-offset-0 col-lg-12 alert alert-success fade in close" id="vrSuccess" data-dismiss="alert">
+                  <button aria-hidden="true" class="close" type="button">&times;</button> Message verified to be from <span id="vrAddr"></span>
+                </div>
+                <div class="col-lg-offset-0 col-lg-12 alert alert-danger fade in" id="vrError">
+                  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button> Message failed to verify!
+                </div>
+                <div class="col-lg-offset-0 col-lg-12 alert alert-warning fade in" id="vrWarning">
+                  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button> Message verified to be from <span id="vrAddr"></span> (but address was not found in the signature!)
+                </div>
+              </div>
+              <div id="vrAlert"></div>
+              <div class="form-group">
+                <label class="col-lg-12 control-label" for="vrSig">Signed Message</label>
+                <div class="col-lg-12 controls">
+                  <textarea class="form-control" id="vrSig" rows="12" spellcheck="false"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-lg-offset-0 col-lg-12 controls">
+                  <button class="btn btn-success btn-lg btn-block" id="vrVerify" type="button">Verify Message</button>&nbsp;&nbsp;<strong><span class="help-inline errormsg" id="vrRes">&nbsp;</span></strong>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+        </div>
+
+		<!-- Settings -->
+		<div role="tabpanel" class="tab-pane fade" id="extras">
+            <fieldset>
+              <legend><small>EXTRAS</small></legend>
+					<button type="button" id="modeButton" class="btn btn-info btn-lg btn-block">TOGGLE EXPERT MODE</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="renameDeviceButton" class="btn btn-info btn-lg btn-block">RENAME DEVICE</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="hiddenWallet" class="btn btn-success btn-lg btn-block">OPEN HIDDEN WALLET</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="device_restore_wallet_action" class="btn btn-info btn-lg btn-block ">RESTORE A WALLET</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="setPINbutton" class="btn btn-default btn-lg btn-block ">SET/RESET APP PIN</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="renameWallet" class="btn btn-success btn-lg btn-block">RENAME LOADED WALLET</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="deleteWalletButton" class="btn btn-danger btn-lg btn-block">DELETE WALLET</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="resetLanguage" class="btn btn-default btn-lg btn-block">RESET DEVICE LANGUAGE</button>
+					&nbsp;
+					&nbsp;
+					<button type="button" id="formatDevice" class="btn btn-danger btn-lg btn-block">FORMAT DEVICE</button>
+					&nbsp;
+					&nbsp;
+					2.1.17
+            </fieldset>
+		</div>
+
+
+            <div class="panel panel-default hidden">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Diagnostics</h3>
+                </div>
+
+
+
+                <div class="panel-body">
+	                <div class="form-group"><!-- buttons -->
+
+						<button class="btn btn-default" id="initialize" type="button">Initialize</button> 
+						<button class="btn btn-danger" id="feature" type="button">REFLASH</button> 
+						<button class="btn btn-default" id="uuid" type="button">Get UUID</button>
+						<button class="btn btn-default" id="GetAll" type="button">Get All</button> 
+						<button class="btn btn-default" id="PutAll" type="button">Put All</button> 
+						<button class="btn btn-default" id="reset_lang" type="button">reset_lang</button> 
+						<button class="btn btn-default" id="format_storage" type="button">format</button> 
+						<button class="btn btn-success" id="button_ack" type="button">button_ack</button> 
+						<button class="btn btn-default" id="scan_wallet" type="button">scan_wallet</button> 
+<!-- 
+						<button class="btn btn-default" id="list_wallets" type="button">list wallets</button> 
+ -->
+						<div class="btn-group">
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Delete... <span class="caret"></span></button>
+
+							<ul class="dropdown-menu" id="delete_wallet_list"></ul>
+						</div>
+
+<!-- 
+						<div class="btn-group">
+							<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" type="button">Get Addresses <span class="caret"></span></button>
+
+							<ul class="dropdown-menu" id="get_address"></ul>
+						</div>
+ -->
+					</div>
+
+
+
+                    <div class="form-group"><!-- OTP -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn">
+										<button class="btn btn-default" id="otp_ack" type="button">
+											<span class="input-group-btn">
+												<span class="input-group-btn">OTP</span>
+											</span>
+										</button>
+                                    </span> 
+                                    <input class="form-control" id="otp_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.OTP -->
+                    <div class="form-group"><!-- PIN -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="pin_ack" type="button"><span class="input-group-btn"><span class="input-group-btn">PIN</span></span></button></span> <input class="form-control" id="pin_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.PIN -->
+                    <div class="form-group"><!-- PING -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="ping" type="button"><span class="input-group-btn"><span class="input-group-btn">PING</span></span></button></span> <input class="form-control" id="ping_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.PING -->
+                    <div class="form-group"><!-- QR -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="qr_internal" type="button"><span class="input-group-btn"><span class="input-group-btn">QR</span></span></button></span> <input class="form-control" id="qr_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.QR -->
+                    <div class="form-group"><!-- ENTROPY -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="entropy" type="button"><span class="input-group-btn"><span class="input-group-btn">GET ENTROPY</span></span></button></span> <input class="form-control" id="entropy_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.ENTROPY -->
+                    <div class="form-group"><!-- RESTORE -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="restore_wallet" type="button"><span class="input-group-btn"><span class="input-group-btn">RESTORE</span></span></button></span> <input class="form-control" id="restore_wallet_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.RESTORE -->
+                    <div class="form-group"><!-- direct load wallet -->
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="direct_load_wallet" type="button"><span class="input-group-btn"><span class="input-group-btn">Direct load wallet</span></span></button></span> <input class="form-control" id="direct_load_wallet_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-6 -->
+                        </div><!-- /.row -->
+                    </div><!-- /.direct load wallet -->
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+                                    <span class="input-group-btn"><button class="btn btn-default" id="rename_wallet_variable" type="button"><span class="input-group-btn"><span class="input-group-btn">Rename currently loaded wallet</span></span></button></span> <input class="form-control" id="rename_wallet_input" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-10 -->
+                        </div><!-- /.row -->
+                    </div>
+
+
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-lg-4">
+                                <div class="input-group">
+								<form class="form-inline">
+<!-- 
+								  <button type="submit" class="btn btn-default" id="device_restore_wallet_action">Device Restore Wallet</button>
+ -->
+<!-- 
+								  <div class="form-group">
+									<input type="email" class="form-control" id="device_restore_wallet_number" placeholder="wallet number">
+								  </div>
+ -->
+								  <div class="form-group">
+									<input type="email" class="form-control" id="device_restore_wallet_name" placeholder="wallet name">
+								  </div>
+								  <div class="form-group">
+									<input type="password" class="form-control" id="device_restore_wallet_password">
+								  </div>
+<!-- 
+								  <div class="checkbox">
+									<label>
+									  <input type="checkbox" id="device_restore_wallet_isHidden"> Make Hidden
+									</label>
+								  </div>
+ -->
+								</form>
+                                </div><!-- /input-group -->
+                            </div><!-- /.col-lg-10 -->
+                        </div><!-- /.row -->
+                    </div>
+
+					
+                </div><!-- /.panel-body -->
+            </div>
+
+            <div class="panel panel-default hidden">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Output</h3>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="der">COMMAND STATUS</label>
+
+                        <div class="col-lg-10">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control" disabled id="command">
+									</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="der">PAYLOAD SIZE</label>
+
+                        <div class="col-lg-10 controls">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control" disabled id="payLoadSize">
+									</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="der">PAYLOAD ASCII</label>
+
+                        <div class="col-lg-10 controls">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control" disabled id="payload_ASCII">
+									</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="der">PAYLOAD HEXADECIMAL</label>
+
+                        <div class="col-lg-10 controls">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control" disabled id="payload_HEX">
+									</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-lg-2 control-label" for="der">Temp Results</label>
+
+                        <div class="col-lg-10 controls">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control" disabled id="temp_results">
+									</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	
+                        <label class="col-lg-2 control-label" for="der">Raw input</label>
+                        <div class="col-lg-10 controls">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <textarea class="form-control"  id="raw_input">
+									</textarea>
+ 									<button class="btn btn-default" id="raw_input_button" type="button">Send RAW</button> 
+                               </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /.panel-body -->
+            </div>
+
+            <footer>
+            	
+            </footer>
+        </div>
+    </div>
+
+    <div class="modal fade" id="qroverlay" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-body" style="text-align:center">
+                    <span id="genAddrQR"></span><br>
+                    <span id="qraddr" style="font-family:monospace"></span>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+	<script src="libs/moment.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="libs/jquery/jquery.paginate.js"></script>
+	<script src="libs/evothings/evothings.js"></script>
+<!-- 
+	<script src="libs/evothings/easy-ble.js"></script>
+ -->
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/bitlox/ByteBufferAB.js"></script>
+	<script src="libs/bitlox/ProtoBuf.js"></script>
+	<!-- https://raw.github.com/dcodeIO/ProtoBuf.js/master/dist/ProtoBuf.min.js -->
+
+    <script src="libs/bitlox/sjcl.js"></script> 
+    <script src="libs/bitlox/bitcoinjs-lib.js"></script> 
+    <script src="libs/bitlox/modsqrt.js"></script> 
+    <script src="libs/bitlox/sha512.js"></script> 
+    <script src="libs/bitlox/qrcode.js"></script> 
+    <script src="libs/bitlox/bitcoinsig.js"></script>    
+	<script src="libs/bitlox/Long.min.js"></script>
+
+    <script src="libs/bitlox/bootstrap.js"></script> 
+    <script src="libs/bitlox/underscore-min.js"></script> 
+    <script src="libs/bitlox/coin.js"></script>
+	<script src="cordova.js"></script>
+<!-- 
+	<script language="JavaScript" src="libs/test.js">
+	</script>
+ -->
+	<script src="app.js"></script>
+	
+</body>
+
+</html>

@@ -1,0 +1,223 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"BLE\"><param name=\"android-package\" value=\"com.evothings.BLE\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Notification\"><param name=\"android-package\" value=\"org.apache.cordova.dialogs.Notification\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"ListPicker\"><param name=\"android-package\" value=\"am.armsoft.plugins.ListPicker\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Whitelist\"><param name=\"android-package\" value=\"org.apache.cordova.whitelist.WhitelistPlugin\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Toast\"><param name=\"android-package\" value=\"nl.xservices.plugins.Toast\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"PinDialog\"><param name=\"android-package\" value=\"hu.dpal.phonegap.plugins.PinDialog\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"CsZBar\"><param name=\"android-package\" value=\"org.cloudsky.cordovaPlugins.ZBar\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "AndroidManifest.xml": {
+                "parents": {
+                    "/manifest": [
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.BLUETOOTH_ADMIN\" />",
+                            "count": 1
+                        }
+                    ],
+                    "application": [
+                        {
+                            "xml": "<activity android:name=\"org.cloudsky.cordovaPlugins.ZBarScannerActivity\" android:screenOrientation=\"portrait\" android:theme=\"@android:style/Theme.Black.NoTitleBar.Fullscreen\"></activity>",
+                            "count": 1
+                        }
+                    ],
+                    "/*": [
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.autofocus\" android:required=\"false\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.flash\" android:required=\"false\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-feature android:name=\"android.hardware.camera.front\" android:required=\"false\" />",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<uses-permission android:name=\"android.permission.CAMERA\" />",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "res/values/strings.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<string name=\"csZbarScannerTitle\">Scan QR Code</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<string name=\"csZbarScannerInstructions\">Please point your camera at the QR code.</string>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<color name=\"csZbarScannerTextColor\">#ffffff</color>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<color name=\"csZbarScannerTextBackground\">#88000000</color>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<color name=\"csZbarScannerBackground\">#000000</color>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "cordova-plugin-ble": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-listpicker": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "hu.dpal.phonegap.plugins.PinDialog": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "org.cloudsky.cordovaplugins.zbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "file": "plugins/cordova-plugin-ble/ble.js",
+            "id": "cordova-plugin-ble.BLE",
+            "pluginId": "cordova-plugin-ble",
+            "clobbers": [
+                "evothings.ble"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/notification.js",
+            "id": "cordova-plugin-dialogs.notification",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-dialogs/www/android/notification.js",
+            "id": "cordova-plugin-dialogs.notification_android",
+            "pluginId": "cordova-plugin-dialogs",
+            "merges": [
+                "navigator.notification"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-listpicker/www/ListPicker.js",
+            "id": "cordova-plugin-listpicker.ListPicker",
+            "pluginId": "cordova-plugin-listpicker",
+            "clobbers": [
+                "window.plugins.listpicker"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-whitelist/whitelist.js",
+            "id": "cordova-plugin-whitelist.whitelist",
+            "pluginId": "cordova-plugin-whitelist",
+            "runs": true
+        },
+        {
+            "file": "plugins/cordova-plugin-x-toast/www/Toast.js",
+            "id": "cordova-plugin-x-toast.Toast",
+            "pluginId": "cordova-plugin-x-toast",
+            "clobbers": [
+                "window.plugins.toast"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-x-toast/test/tests.js",
+            "id": "cordova-plugin-x-toast.tests",
+            "pluginId": "cordova-plugin-x-toast"
+        },
+        {
+            "file": "plugins/hu.dpal.phonegap.plugins.PinDialog/www/pin.js",
+            "id": "hu.dpal.phonegap.plugins.PinDialog.PinDialog",
+            "pluginId": "hu.dpal.phonegap.plugins.PinDialog",
+            "merges": [
+                "window.plugins.pinDialog"
+            ]
+        },
+        {
+            "file": "plugins/org.cloudsky.cordovaplugins.zbar/www/zbar.js",
+            "id": "org.cloudsky.cordovaplugins.zbar.zBar",
+            "pluginId": "org.cloudsky.cordovaplugins.zbar",
+            "clobbers": [
+                "cloudSky.zBar"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-statusbar/www/statusbar.js",
+            "id": "cordova-plugin-statusbar.statusbar",
+            "pluginId": "cordova-plugin-statusbar",
+            "clobbers": [
+                "window.StatusBar"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "cordova-plugin-statusbar": "2.0.0"
+    }
+}

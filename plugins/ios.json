@@ -1,0 +1,36 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {}
+    },
+    "installed_plugins": {
+        "cordova-plugin-whitelist": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-ble": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-x-toast": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "hu.dpal.phonegap.plugins.PinDialog": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "org.cloudsky.cordovaplugins.zbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-dialogs": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-listpicker": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        }
+    },
+    "dependent_plugins": {}
+}
