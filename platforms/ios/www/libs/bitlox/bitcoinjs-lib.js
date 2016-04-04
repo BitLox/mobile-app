@@ -3011,6 +3011,9 @@ function bnpFromInt(x) {
 // return bigint initialized to value
 function nbv(i) { var r = nbi(); r.fromInt(i); return r; }
 
+// return bigint initialized to value
+function nbvS(i) { var r = nbi(); r.fromString(i,16); return r; }
+
 // (protected) set from string and radix
 function bnpFromString(s,b) {
   var k;
@@ -4707,6 +4710,7 @@ EventEmitter.augment = function(obj) {
 };
 // BigInteger monkey patching
 BigInteger.valueOf = nbv;
+BigInteger.valueOfString = nbvS;
 
 /**
  * Returns a byte array representation of the big integer.
@@ -7046,6 +7050,7 @@ Bitcoin.ECKey = (function () {
     buffer = buffer.concat(Bitcoin.Util.numToVarInt(this.outs.length));
     for (var i = 0; i < this.outs.length; i++) {
       var txout = this.outs[i];
+      console.log("txout.value: " + txout.value);
       buffer = buffer.concat(txout.value);
       var scriptBytes = txout.script.buffer;
       buffer = buffer.concat(Bitcoin.Util.numToVarInt(scriptBytes.length));
@@ -7260,6 +7265,7 @@ Bitcoin.ECKey = (function () {
       var txout = this.outs[j];
       totalValue = totalValue.add(Bitcoin.Util.valueToBigInt(txout.value));
     }
+    console.log("7264 totalValue: " + totalValue);
     return totalValue;
   };
 

@@ -2372,13 +2372,31 @@ console.log("address_handle_index " + address_handle_index);
     }
 
 
+// The BigInteger routines in bitcoinjs-lib are not able to correctly evaluate a decimal number passed.
+// Therefore we have to pass it as a hexadecimal string.
+//  Changes in bitcoinjs-lib:
+// 	4713+ BigInteger.valueOfString = nbvS;
+// 	3014+ function nbvS(i) { var r = nbi(); r.fromString(i,16); return r; }
 
     var valueFromSatoshi = function(number) {
-        var value = BigInteger.valueOf(number);
+    	console.log("vFS number " + number);
+    	console.log("vFS d2h(number) " + d2h(number));
+
+        var value = BigInteger.valueOfString(d2h(number),16);
+        console.log("vFS value " + value);
+
         value = value.toByteArrayUnsigned().reverse();
+        console.log("vFS value bAU R " + value);
         while (value.length < 8) value.push(0);
         return value;
     }
+
+//     var valueFromSatoshi = function(number) {
+//         var value = BigInteger.valueOf(number);
+//         value = value.toByteArrayUnsigned().reverse();
+//         while (value.length < 8) value.push(0);
+//         return value;
+//     }
 
 
 
