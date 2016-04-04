@@ -43,6 +43,10 @@
                         {
                             "xml": "<preference name=\"StatusBarStyle\" value=\"lightcontent\" />",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Clipboard\"><param name=\"ios-package\" value=\"CDVClipboard\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": []
@@ -73,6 +77,9 @@
             "PACKAGE_NAME": "net.projecthunter"
         },
         "cordova-plugin-statusbar": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "com.verso.cordova.clipboard": {
             "PACKAGE_NAME": "net.projecthunter"
         }
     },
@@ -138,9 +145,18 @@
             "clobbers": [
                 "window.StatusBar"
             ]
+        },
+        {
+            "file": "plugins/com.verso.cordova.clipboard/www/clipboard.js",
+            "id": "com.verso.cordova.clipboard.Clipboard",
+            "pluginId": "com.verso.cordova.clipboard",
+            "clobbers": [
+                "cordova.plugins.clipboard"
+            ]
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-statusbar": "2.0.0"
+        "cordova-plugin-statusbar": "2.0.0",
+        "com.verso.cordova.clipboard": "0.1.0"
     }
 }

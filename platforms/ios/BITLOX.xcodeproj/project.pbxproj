@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		1291489B8AA04433AE167904 /* Toast.m in Sources */ = {isa = PBXBuildFile; fileRef = 502450008D6142458F0DE869 /* Toast.m */; };
 		13F31B2078024AA6827B815E /* CDVNotification.m in Sources */ = {isa = PBXBuildFile; fileRef = 2D32287B01D447DCA3AB301C /* CDVNotification.m */; };
@@ -61,6 +60,7 @@
 		D95CD4601C0AF4BC004AEB21 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95CD45F1C0AF4BC004AEB21 /* LaunchScreen.xib */; settings = {ASSET_TAGS = (); }; };
 		D960AB2D1C051E3D0031A75B /* Images-2.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D960AB2C1C051E3D0031A75B /* Images-2.xcassets */; settings = {ASSET_TAGS = (); }; };
 		DB10AF0ADB254CDDB083392A /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2CBBB25D25D43449519C054 /* AVFoundation.framework */; };
+		07AE21FC565842B19E9D040A /* CDVClipboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 8B902B45BF454965B2F725F3 /* CDVClipboard.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,6 +174,8 @@
 		F2C18F68BC224699AE3E842A /* Scanner.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Scanner.h; path = org.cloudsky.cordovaplugins.zbar/Scanner.h; sourceTree = "<group>"; };
 		F840E1F0165FE0F500CFE078 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = BITLOX/config.xml; sourceTree = "<group>"; };
 		FE42507AF36D445CAE9220A5 /* Symbol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Symbol.h; path = org.cloudsky.cordovaplugins.zbar/Symbol.h; sourceTree = "<group>"; };
+		8B902B45BF454965B2F725F3 /* CDVClipboard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = "CDVClipboard.m"; path = "com.verso.cordova.clipboard/CDVClipboard.m"; sourceTree = "<group>"; fileEncoding = 4; };
+		8377FB7DA14440BBAE67CCAE /* CDVClipboard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "CDVClipboard.h"; path = "com.verso.cordova.clipboard/CDVClipboard.h"; sourceTree = "<group>"; fileEncoding = 4; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -330,6 +332,8 @@
 				5AD7656A6103436D825DAFEC /* ListPicker.h */,
 				043E8EE1B8B9498588ACB3EB /* CDVStatusBar.m */,
 				8797175A88E248B0896DA128 /* CDVStatusBar.h */,
+				8B902B45BF454965B2F725F3 /* CDVClipboard.m */,
+				8377FB7DA14440BBAE67CCAE /* CDVClipboard.h */,
 			);
 			name = Plugins;
 			path = BITLOX/Plugins;
@@ -532,6 +536,7 @@
 				13F31B2078024AA6827B815E /* CDVNotification.m in Sources */,
 				C7BF65BE58F548C59887E248 /* ListPicker.m in Sources */,
 				48DCC20321AB43749ED6C246 /* CDVStatusBar.m in Sources */,
+				07AE21FC565842B19E9D040A /* CDVClipboard.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

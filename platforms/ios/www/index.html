@@ -436,7 +436,7 @@
               <div class="form-group">
                 <label class="col-lg-12 control-label" for="vrSig">Signed Message</label>
                 <div class="col-lg-12 controls">
-                  <textarea class="form-control" id="vrSig" rows="12" spellcheck="false"></textarea>
+                  <textarea class="form-control selectable" id="vrSig" rows="12" spellcheck="false"></textarea>
                 </div>
               </div>
               <div class="form-group">
@@ -737,13 +737,14 @@
     <div class="modal fade" id="qroverlay" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-body" style="text-align:center">
+                <div class="modal-body selectable" style="text-align:center">
                     <span id="genAddrQR"></span><br>
-                    <span id="qraddr" style="font-family:monospace"></span>
+                    <span id="qraddr" style="font-family:monospace" class="selectable"></span>
                 </div>
 
-                <div class="modal-footer">
-                    <button class="btn btn-default" data-dismiss="modal" type="button">Close</button>
+                <div class="modal-footer qr_display">
+                    <button class="btn btn-default button-left" id="addrCopy" type="button">Copy</button>&nbsp;
+                    <button class="btn btn-default button-right" data-dismiss="modal" type="button">Close</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -753,9 +754,6 @@
 	<script src="libs/jquery/jquery.js"></script>
 	<script src="libs/jquery/jquery.paginate.js"></script>
 	<script src="libs/evothings/evothings.js"></script>
-<!-- 
-	<script src="libs/evothings/easy-ble.js"></script>
- -->
 	<script src="libs/evothings/ui/ui.js"></script>
 	<script src="libs/bitlox/ByteBufferAB.js"></script>
 	<script src="libs/bitlox/ProtoBuf.js"></script>
@@ -773,10 +771,6 @@
     <script src="libs/bitlox/underscore-min.js"></script> 
     <script src="libs/bitlox/coin.js"></script>
 	<script src="cordova.js"></script>
-<!-- 
-	<script language="JavaScript" src="libs/test.js">
-	</script>
- -->
 	<script src="app.js"></script>
 	
 </body>

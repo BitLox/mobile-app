@@ -39,6 +39,10 @@
                         {
                             "xml": "<feature name=\"StatusBar\"><param name=\"android-package\" value=\"org.apache.cordova.statusbar.StatusBar\" /><param name=\"onload\" value=\"true\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Clipboard\"><param name=\"android-package\" value=\"com.verso.cordova.clipboard.Clipboard\" /></feature>",
+                            "count": 1
                         }
                     ]
                 }
@@ -137,6 +141,9 @@
         },
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "net.projecthunter"
+        },
+        "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "net.projecthunter"
         }
     },
     "dependent_plugins": {},
@@ -215,9 +222,18 @@
             "clobbers": [
                 "window.StatusBar"
             ]
+        },
+        {
+            "file": "plugins/com.verso.cordova.clipboard/www/clipboard.js",
+            "id": "com.verso.cordova.clipboard.Clipboard",
+            "pluginId": "com.verso.cordova.clipboard",
+            "clobbers": [
+                "cordova.plugins.clipboard"
+            ]
         }
     ],
     "plugin_metadata": {
-        "cordova-plugin-statusbar": "2.0.0"
+        "cordova-plugin-statusbar": "2.0.0",
+        "com.verso.cordova.clipboard": "0.1.0"
     }
 }

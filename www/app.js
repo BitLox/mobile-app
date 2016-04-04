@@ -35,7 +35,7 @@ console.log('platform: '+platform);
 	var serverURL = 'https://insight.bitpay.com/api';
 	var serverURLio = 'http://bitlox.io/api';
 	
-
+	var qrCopyAddress = '';
 /********************
 *	Utility functions
 */
@@ -2941,6 +2941,7 @@ console.log("address_handle_index " + address_handle_index);
 
     $(document).on("click", ".open-qroverlay", function() {
         var myAddress = $(this).data('addr');
+        qrCopyAddress = myAddress;
         console.log("QR-->" + myAddress);
         $("#qraddr").text(myAddress);
 
@@ -2952,6 +2953,13 @@ console.log("address_handle_index " + address_handle_index);
         qrCode.make();
         $('#genAddrQR').html(qrCode.createImgTag(6));
     });
+
+    $(document).on("click", "#addrCopy", function() {
+		cordova.plugins.clipboard.copy(qrCopyAddress);
+		window.plugins.toast.show('Copied to clipboard', 'short', 'center', function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)});
+		qrCopyAddress = '';
+    });
+
 
 
     $(document).on("click", ".open-sendMsgFrom", function() {

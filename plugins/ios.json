@@ -30,6 +30,9 @@
         },
         "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "net.projecthunter"
+        },
+        "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "net.projecthunter"
         }
     },
     "dependent_plugins": {}

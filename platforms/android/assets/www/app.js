@@ -5,7 +5,7 @@
  */
 var platform = cordova.platformId;
 console.log('platform: '+platform);
-	var appVersion = "2.1.16";
+	var appVersion = "2.1.18";
     // "globals" 
 	var ble = null;
 	var incomingData = '';
@@ -34,25 +34,7 @@ console.log('platform: '+platform);
 
 	var serverURL = 'https://insight.bitpay.com/api';
 	var serverURLio = 'http://bitlox.io/api';
-// 	        http://bitlox.io/api/addr/17XLaSzT7ZpzEJmFvnqEFycoEUXDaXkPcp/totalReceived',{}, 'text')
 	
-var options = {
-  "direction"        : "up", // 'left|right|up|down', default 'left' (which is like 'next')
-  "duration"         :  500, // in milliseconds (ms), default 400
-  "slowdownfactor"   :    3, // overlap views (higher number is more) or no overlap (1), default 4
-  "iosdelay"         :  100, // ms to wait for the iOS webview to update before animation kicks in, default 60
-  "androiddelay"     :  150, // same as above but for Android, default 70
-  "winphonedelay"    :  250, // same as above but for Windows Phone, default 200,
-  "fixedPixelsTop"   :    0, // the number of pixels of your fixed header, default 0 (iOS and Android)
-  "fixedPixelsBottom":   60  // the number of pixels of your fixed footer (f.i. a tab bar), default 0 (iOS and Android)
-};
-
-
-// window.plugins.nativepagetransitions.slide(
-//   options,
-//   function (msg) {console.log("success: " + msg)}, // called when the animation has finished
-//   function (msg) {alert("error: " + msg)} // called in case you pass in weird values
-// );
 
 /********************
 *	Utility functions
@@ -176,9 +158,7 @@ var options = {
         }
     }
 
-//     function updateAddr(from, to) {
     function updateAddr(to) {
-//         var sec = from.val();
         var addr = '';
         var eckey = null;
         var compressed = false;
@@ -443,16 +423,12 @@ var options = {
 
 		var bb = new ByteBuffer();
         var parseLength = randomnumber.length
-// 	console.log("utx length = " + parseLength);
         var i;
         for (i = 0; i < parseLength; i += 2) {
             var value = randomnumber.substring(i, i + 2);
-// 	console.log("value = " + value);		
             var prefix = "0x";
             var together = prefix.concat(value);
-// 	console.log("together = " + together);
             var result = parseInt(together);
-// 	console.log("result = " + result);
 
             bb.writeUint8(result);
         }
@@ -464,7 +440,6 @@ var options = {
 
         tempBuffer = initializeContents.encode();
         var tempTXstring = tempBuffer.toString('hex');
-//         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
         var j;
         var txLengthOriginal = txSize.length;
@@ -472,7 +447,6 @@ var options = {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
-        // 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "0017"; 
@@ -506,15 +480,12 @@ var options = {
         var tempTXstring = tempBuffer.toString('hex');
         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
-	console.log("tempTXstring = " + tempTXstring);
-// 	console.log("txSize.length = " + txSize.length);
         var j;
         var txLengthOriginal = txSize.length;
         for (j = 0; j < (8 - txLengthOriginal); j++) {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
-// 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "000B"; 
@@ -549,15 +520,12 @@ var options = {
         var tempTXstring = tempBuffer.toString('hex');
         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
-	console.log("tempTXstring = " + tempTXstring);
-// 	console.log("txSize.length = " + txSize.length);
         var j;
         var txLengthOriginal = txSize.length;
         for (j = 0; j < (8 - txLengthOriginal); j++) {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
-// 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "0016"; 
@@ -593,15 +561,12 @@ var options = {
         var tempTXstring = tempBuffer.toString('hex');
         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
-	console.log("tempTXstring = " + tempTXstring);
-// 	console.log("txSize.length = " + txSize.length);
         var j;
         var txLengthOriginal = txSize.length;
         for (j = 0; j < (8 - txLengthOriginal); j++) {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
-// 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "0014"; 
