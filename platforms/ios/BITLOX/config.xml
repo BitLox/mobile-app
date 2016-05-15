@@ -28,6 +28,9 @@
     <feature name="Clipboard">
         <param name="ios-package" value="CDVClipboard" />
     </feature>
+    <feature name="Globalization">
+        <param name="ios-package" value="CDVGlobalization" />
+    </feature>
     <name>BITLOX</name>
     <description>
         Bitlox hardware wallet app

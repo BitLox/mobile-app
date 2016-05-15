@@ -36,6 +36,9 @@ console.log('platform: '+platform);
 	var serverURLio = 'http://bitlox.io/api';
 	
 	var qrCopyAddress = '';
+	var browser_language;
+	var browser_lang_code;
+	var langStrings;
 /********************
 *	Utility functions
 */
@@ -3374,9 +3377,23 @@ console.log("address_handle_index " + address_handle_index);
 	}
 
 
-
-
-
+function swapLanguage()
+{
+// 			navigator.globalization.getPreferredLanguage(
+// 			 function (language) {    
+// 				browser_language = language.value;
+// 		//      	alert('language: ' + browser_language + '\n');
+// 			 },
+// 			 function () {
+// 			 alert('Error getting language\n');}
+// 			);
+        	browser_lang_code = browser_language.substring(0, 2);
+      		$(function(){
+//                 alert('code: ' + browser_lang_code + '\n');
+				var opts = { language: browser_lang_code, pathPrefix: "libs/jquery", skipLanguage: "en-US" };
+				$("[data-localize]").localize("bitlox_mobile", opts);
+      		})
+}
 
 
 
@@ -3431,8 +3448,11 @@ var app =
         		$(".standard").removeClass('hidden');
 				displayMode = 'STANDARD';
 				evothings.scriptsLoaded(app.onDeviceReady); 
+				
 				StatusBar.styleLightContent();
-				app.getPIN(globalPINstatus);
+				app.noPIN();
+// 				app.getPIN(globalPINstatus);
+				
 			},
 			false);
 	},
@@ -3457,7 +3477,11 @@ var app =
 		}
 	},
 
-
+	noPIN: function()
+	{
+		$('#myTab a[href="#splash_background"]').tab('show');
+		$("#renameWallet").attr('disabled',true);
+	},
 
 
 
@@ -3520,7 +3544,7 @@ var app =
 				var PINstatus = window.localStorage['PINstatus'];
 				globalPINstatus = 'true';
 				$("#theBody").removeClass('grell');
-				$('#myTab a[href="#ble_scan"]').tab('show');
+				$('#myTab a[href="#splash_background"]').tab('show');
 				$("#renameWallet").attr('disabled',true);
 			}else
 			{
@@ -4183,7 +4207,7 @@ displayDeviceList: function()
 				// with an iBeacon UUID.
 // 				+	(evothings.os.isIOS() ? '' : device.address + '<br />')
 // 				+	(evothings.os.isIOS() ? device.address : device.address + '<br />')
-				+	'<small><span class="left-label">SIGNAL STRENGTH  </small></span>&nbsp;<span class="right-signal">' +device.rssi + ' dB</span><br />'
+				+	'<small><span class="left-label">'+ langStrings.SIGNAL_STRENGTH +' </small></span>&nbsp;<span class="right-signal">' +device.rssi + ' dB</span><br />'
 				+ 	'<div style="background:rgb(225,0,0);height:20px;width:'
 				+ 		rssiWidth*2 + '%;"></div>'
 				+	'</span>'
@@ -4208,11 +4232,42 @@ displayStatusScanner: function(message)
 // End of app object.
 
 
+function checkLanguage() 
+{
+ 	navigator.globalization.getPreferredLanguage(
+	 function (language) {    
+	 	browser_language = language.value;
+	 	browser_language = browser_language.substring(0, 2);
+//      	alert('language: ' + browser_language + '\n');
+     	var opts = { language: browser_language, pathPrefix: "libs/jquery", skipLanguage: "en-US" };
+		$("[data-localize]").localize("bitlox_mobile", opts);
+	 },
+	 function () {
+	 alert('Error getting language\n');}
+	);
 
-// 	var goWalletsList = function()
-// 	{
-// 		$('#myTab a[href="#bip32"]').tab('show');
-// 	}
+}
+
+
+
+
+
+function loadLanguages() 
+{
+// 	var targetLangJSON = "libs/jquery/bitlox_mobile-" + browser_language + ".json";
+	var targetLangJSON = "libs/jquery/bitlox_mobile-" + "zh" + ".json";
+	$.getJSON(targetLangJSON)
+	  .done(function( langStrings ) {
+		alert( "JSON Data: " + langStrings.FROB );
+		alert( "JSON Data: " + langStrings.VERIFY_MESSAGE );
+		alert("ss " + langStrings.SIGNAL_STRENGTH);
+
+	  })
+	  .fail(function( jqxhr, textStatus, error ) {
+		var err = textStatus + ", " + error;
+		alert( "Request Failed: " + err );
+	});
+}
 
 
 /**
@@ -4221,6 +4276,20 @@ displayStatusScanner: function(message)
 $(document).ready( function()
 {
 		app.initialize();
+		
+        $('#lang_check').on('click', function() {
+//         	var temp1 = translate('FROB');
+// 			alert(temp1);        	
+        });
+
+        $('#splash_background').on('click', function() {
+        	checkLanguage();
+        	$("#theBody").removeClass('grell');
+			$('#myTab a[href="#ble_scan"]').tab('show');
+        	$("#theNav").removeClass('hidden');
+        	loadLanguages();
+        });
+
 
         $('#vrVerify').click(vrVerify);
         onInput('#vrSig', vrOnChangeSig);
@@ -4296,6 +4365,7 @@ $(document).ready( function()
         	var address = document.getElementById("device_addr").text;
         	app.connect(address);
 		});
+
 
 
 

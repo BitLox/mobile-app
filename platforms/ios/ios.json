@@ -47,6 +47,10 @@
                         {
                             "xml": "<feature name=\"Clipboard\"><param name=\"ios-package\" value=\"CDVClipboard\" /></feature>",
                             "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Globalization\"><param name=\"ios-package\" value=\"CDVGlobalization\" /></feature>",
+                            "count": 1
                         }
                     ],
                     "/widget": []
@@ -80,6 +84,9 @@
             "PACKAGE_NAME": "net.projecthunter"
         },
         "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-globalization": {
             "PACKAGE_NAME": "net.projecthunter"
         }
     },
@@ -153,10 +160,27 @@
             "clobbers": [
                 "cordova.plugins.clipboard"
             ]
+        },
+        {
+            "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
+            "id": "cordova-plugin-globalization.GlobalizationError",
+            "pluginId": "cordova-plugin-globalization",
+            "clobbers": [
+                "window.GlobalizationError"
+            ]
+        },
+        {
+            "file": "plugins/cordova-plugin-globalization/www/globalization.js",
+            "id": "cordova-plugin-globalization.globalization",
+            "pluginId": "cordova-plugin-globalization",
+            "clobbers": [
+                "navigator.globalization"
+            ]
         }
     ],
     "plugin_metadata": {
         "cordova-plugin-statusbar": "2.0.0",
-        "com.verso.cordova.clipboard": "0.1.0"
+        "com.verso.cordova.clipboard": "0.1.0",
+        "cordova-plugin-globalization": "1.0.3"
     }
 }

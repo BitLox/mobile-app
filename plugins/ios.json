@@ -33,6 +33,9 @@
         },
         "com.verso.cordova.clipboard": {
             "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-globalization": {
+            "PACKAGE_NAME": "net.projecthunter"
         }
     },
     "dependent_plugins": {}

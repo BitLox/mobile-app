@@ -23,20 +23,47 @@
 	// Redirect console.log to Evothings Workbench.
 	if (window.hyper && window.hyper.log) { console.log = hyper.log }
 	</script>
+	<script src="libs/moment.js"></script>
+	<script src="libs/jquery/jquery.js"></script>
+	<script src="libs/jquery/jquery.paginate.js"></script>
+	<script src="libs/jquery/jquery.localize.js"></script>
+	<script src="libs/jquery.i18n.properties.js"></script>	
+	<script src="libs/evothings/evothings.js"></script>
+	<script src="libs/evothings/ui/ui.js"></script>
+	<script src="libs/bitlox/ByteBufferAB.js"></script>
+	<script src="libs/bitlox/ProtoBuf.js"></script>
+	<!-- https://raw.github.com/dcodeIO/ProtoBuf.js/master/dist/ProtoBuf.min.js -->
+
+    <script src="libs/bitlox/sjcl.js"></script> 
+    <script src="libs/bitlox/bitcoinjs-lib.js"></script> 
+    <script src="libs/bitlox/modsqrt.js"></script> 
+    <script src="libs/bitlox/sha512.js"></script> 
+    <script src="libs/bitlox/qrcode.js"></script> 
+    <script src="libs/bitlox/bitcoinsig.js"></script>    
+	<script src="libs/bitlox/Long.min.js"></script>
+
+    <script src="libs/bitlox/bootstrap.js"></script> 
+    <script src="libs/bitlox/underscore-min.js"></script> 
+    <script src="libs/bitlox/coin.js"></script>
+	<script src="cordova.js"></script>
+	<script src="app.js"></script>
 
 
 </head>
 
+<!-- 
 <body ontouchstart="" class="grell" id="theBody">
-    <nav class="navbar navbar-inverse navbar-fixed-top">
+ -->
+<body ontouchstart=""  id="theBody" class="grell">
+    <nav class="navbar navbar-inverse navbar-fixed-top hidden" id="theNav">
       <a class="btn btn-navbar hidden" data-toggle="collapse" data-target=".nav-collapse">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </a>
 
-        <div class="navbar-header">
-            <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="#" id="brand"><img alt="BITLOX" src="css/bitlox-logo-40.png"></a><p class="navbar-text"><span id="status">Idling</span></p>
+        <div class="navbar-header " >
+            <button class="navbar-toggle" data-target="#bs-example-navbar-collapse-1" data-toggle="collapse" type="button"><span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span></button> <a class="navbar-brand" href="#" id="brand"><img alt="BITLOX" src="css/bitlox-logo-40.png"></a><p class="navbar-text"><span id="status" data-localize="Ready">Ready</span></p>
         </div>
         <div class="collapse navbar-collapse nav-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav" id="myTab">
@@ -44,16 +71,16 @@
                     <a data-toggle="tab" href="#splash_background" id="tab-splash_background">SPLASH</a>
                 </li>
                 <li class="" id="li-ble_scan" >
-                    <a data-toggle="tab" href="#ble_scan" id="tab-ble_scan">SCAN</a>
+                    <a data-toggle="tab" href="#ble_scan" id="tab-ble_scan" data-localize="SCAN">SCAN</a>
                 </li>
                 <li class="" id="li-bip32" >
-                    <a data-toggle="tab" href="#bip32" id="tab-bip32">WALLETS</a>
+                    <a data-toggle="tab" href="#bip32" id="tab-bip32" data-localize="WALLETS">WALLETS</a>
                 </li>
-                <li class="" id="li-walletDetail"><a data-toggle="tab" href="#walletDetail" id="tab-walletDetail">WALLET DETAIL</a></li>
-                <li class="hidden" id="li-sendPayment"><a data-toggle="tab" href="#sendPayment" id="tab-sign">SEND</a></li>
-                <li id="li-sign"><a data-toggle="tab" href="#sign" id="tab-sign">SIGN MESSAGE</a></li>
-            	<li id="li-verify"><a data-toggle="tab" href="#verify" id="tab-verify">VERIFY MESSAGE</a></li>
-            	<li id="li-extras"><a data-toggle="tab" href="#extras" id="tab-extras">EXTRAS</a></li>
+                <li class="" id="li-walletDetail"><a data-toggle="tab" href="#walletDetail" id="tab-walletDetail" data-localize="WALLET_DETAIL">WALLET DETAIL</a></li>
+                <li class="hidden" id="li-sendPayment"><a data-toggle="tab" href="#sendPayment" id="tab-sign" data-localize="SEND">SEND</a></li>
+                <li id="li-sign"><a data-toggle="tab" href="#sign" id="tab-sign" data-localize="SIGN_MESSAGE">SIGN MESSAGE</a></li>
+            	<li id="li-verify"><a data-toggle="tab" href="#verify" id="tab-verify" data-localize="VERIFY_MESSAGE">VERIFY MESSAGE</a></li>
+            	<li id="li-extras"><a data-toggle="tab" href="#extras" id="tab-extras" data-localize="EXTRAS">EXTRAS</a></li>
             </ul>
         </div>
     </nav>
@@ -64,27 +91,34 @@
         <div class="tab-content">            
 
 <!--         	SPLASH-->
-            <div role="tabpanel" class="tab-pane fade in active" id="splash_background">
+            <div role="tabpanel" class="tab-pane fade in active"  id="splash_background">
+            <img src="ui/images/bitlox-B-white.png" id="splash_button" class="img_splash">
 			</div>
 
 <!--         	SCAN  -->
             <div role="tabpanel" class="tab-pane fade" id="ble_scan">
                     <fieldset>
                         <span id="scanHeading" >
-                        <div class="panel panel-default"><div class="panel-heading scanDetailHeader" id="list_devices"><h2 class="panel-title h2" id="devices_table_title"><span class="walletLabel">Devices</span>&nbsp;<span id="walletListSpinner" class="glyphicon glyphicon-refresh right-refresh hidden"></h2></div> 
+                        <div class="panel panel-default"><div class="panel-heading scanDetailHeader" id="list_devices"><h2 class="panel-title h2" id="devices_table_title"><span class="walletLabel" data-localize="Devices">Devices</span>&nbsp;<span id="walletListSpinner" class="glyphicon glyphicon-refresh right-refresh hidden"></h2></div> 
                         <ul id="found-devices" class="dynamic"></ul>
                         </div>
                         </span>
-                        <span id="helpBlock_ble" class="help-block">Click "START/STOP SCAN" to show the BLE devices in range.</span>
+                        <span id="helpBlock_ble" class="help-block" data-localize="scan_instructions">Click "START/STOP SCAN" to show the BLE devices in range.</span>
                     </fieldset>
 				<span id="stopStartScan">
-					<button type="button" onclick="app.onStartScanButton()"  class="btn btn-success btn-lg btn-block ">
+					<button type="button" onclick="app.onStartScanButton()"  class="btn btn-success btn-lg btn-block " data-localize="START_SCAN">
 						START SCAN
 					</button>
 					&nbsp;
-					<button type="button" onclick="app.onStopScanButton()"  class="btn btn-danger btn-lg btn-block ">
+					<button type="button" onclick="app.onStopScanButton()"  class="btn btn-danger btn-lg btn-block " data-localize="STOP_SCAN">
 						STOP SCAN
 					</button>
+<!-- 
+					&nbsp;
+					<button type="button" id="lang_check"  class="btn btn-warning btn-lg btn-block ">
+						CHECK LANG
+					</button>
+ -->
 				</span>
 				<p id="scan-status" class="hidden">Scanning Paused</p>
 			</div>
@@ -102,7 +136,7 @@
 							<div class="panel panel-default">
 								<div class="panel-heading walletDetailHeader" id="list_wallets" >
 								<h2 class="panel-title h2" id="wallet_table_title" >
-									<span class="walletLabel" id="wallet_list_text">LIST WALLETS</span>&nbsp;
+									<span class="walletLabel" id="wallet_list_text" data-localize="LIST_WALLETS">LIST WALLETS</span>&nbsp;
 									<span id="walletListSpinner" class="glyphicon glyphicon-refresh right-refresh hidden"></span>
 								</h2>
 								</div>
@@ -113,12 +147,12 @@
 							</div>
                         </span>
                     </fieldset>                        
-                    <span id="helpBlock" class="help-block">Tap "List Wallets" to show the wallets available on your BitLox.</span>
+                    <span id="helpBlock" class="help-block" data-localize="wallet_instructions">Tap "List Wallets" to show the wallets available on your BitLox.</span>
 
 					&nbsp;
 					&nbsp;
 					&nbsp;
-					<button type="button" id="newWalletButton" class="btn btn-success btn-lg btn-block ">NEW WALLET</button>
+					<button type="button" id="newWalletButton" class="btn btn-success btn-lg btn-block " data-localize="NEW_WALLET">NEW WALLET</button>
  					<span id="device_addr" class="hidden"></span>				
  				</form>
 			</div>
@@ -130,7 +164,7 @@
 			<div role="tabpanel" class="tab-pane fade" id="walletDetail">
 				<form class="form-horizontal" method="get" onsubmit="return false;">
 					<fieldset>
-              		<legend><small>WALLET DETAIL</small></legend>
+              		<legend><small data-localize="WALLET_DETAIL">WALLET DETAIL</small></legend>
 
 					<div class="panel panel-default">
 						<div class="panel-heading walletDetailHeader noselect" id="forceRefresh">
@@ -145,19 +179,19 @@
                    
 
 <!--  					&nbsp; -->
-					<button type="button" id="sendButton" class="btn btn-danger btn-lg btn-block ">SEND</button>
+					<button type="button" id="sendButton" class="btn btn-danger btn-lg btn-block " data-localize="SEND">SEND</button>
 					&nbsp;
 					&nbsp;
 					&nbsp;
-					<button type="button" id="receiveButton" class="open-qroverlay btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#qroverlay" >RECEIVE</button>
+					<button type="button" id="receiveButton" class="open-qroverlay btn btn-success btn-lg btn-block" data-toggle="modal" data-target="#qroverlay" data-localize="RECEIVE">RECEIVE</button>
 					&nbsp;
 					&nbsp;
 					&nbsp;
-					<button type="button" id="signMessageButton" class="btn btn-default btn-lg btn-block signMessageClass">SIGN MESSAGE</button>
+					<button type="button" id="signMessageButton" class="btn btn-default btn-lg btn-block signMessageClass" data-localize="SIGN_MESSAGE">SIGN MESSAGE</button>
 					&nbsp;
 					&nbsp;
 					&nbsp;
-					<button type="button" id="transactionHistoryButton" class="btn btn-default btn-lg btn-block ">TRANSACTIONS</button>
+					<button type="button" id="transactionHistoryButton" class="btn btn-default btn-lg btn-block " data-localize="TRANSACTIONS">TRANSACTIONS</button>
 					 
 					&nbsp;
 					&nbsp;
@@ -380,9 +414,9 @@
 			<div role="tabpanel" class="tab-pane fade" id="sign" data-target="signTab">
 			  <form action="/" class="form-horizontal" id="sgForm" method="get" name="sgForm">
 				<fieldset>
-				  <legend><small>SIGN MESSAGE</small></legend>
+				  <legend><small data-localize="SIGN_MESSAGE">SIGN MESSAGE</small></legend>
 				  <div class="form-group">
-					<label class="col-lg-12 control-label noselect" for="sgAddr">Address</label>
+					<label class="col-lg-12 control-label noselect" for="sgAddr" data-localize="Address">Address</label>
 					<div class="col-lg-12 controls">
 					  <input class="form-control signMessageClass address-small selectable" id="sgAddr" readonly="readonly" type="text" />
 					  <input class="hidden noselect" id="sgRoot" readonly="readonly" type="number" />
@@ -391,7 +425,7 @@
 					</div>
 				  </div>
 				  <div class="form-group">
-					<label class="col-lg-12 control-label noselect" for="sgMsg">Message</label>
+					<label class="col-lg-12 control-label noselect" for="sgMsg" data-localize="Message">Message</label>
 					<div class="col-lg-12 controls">
 					  <textarea class="form-control selectable" id="sgMsg" rows="4" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
 					  <textarea class="hidden noselect" id="sgMsgHidden" rows="5" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" ></textarea>
@@ -406,12 +440,12 @@
 					</div>
 				  </div>
 				  <div class="form-group">
-					<label class="col-lg-12 control-label " for="sgSig">Signed Message</label>
+					<label class="col-lg-12 control-label " for="sgSig" data-localize="Signed_Message">Signed Message</label>
 					<div class="col-lg-12 controls">
 					  <textarea class="form-control selectable" id="sgSig"  rows="4" spellcheck="false"></textarea>
 					</div>
 				  </div>
-					  <button class="btn btn-success btn-lg btn-block noselect" id="sgSignDevice" title="Signatures require a random number which means signing the same data twice results in different sigs" type="button">Sign Message with BitLox</button>
+					  <button class="btn btn-success btn-lg btn-block noselect" id="sgSignDevice" title="Signatures require a random number which means signing the same data twice results in different sigs" type="button" data-localize="Sign_message_with_bitlox">Sign Message with BitLox</button>
 				</fieldset>
 			  </form>
 			</div>
@@ -420,28 +454,28 @@
 		<div role="tabpanel" class="tab-pane fade" id="verify">
           <form action="/" class="form-horizontal" id="vrForm" method="get" name="vrForm">
             <fieldset>
-              <legend><small>VERIFY MESSAGE</small></legend>
+              <legend><small data-localize="VERIFY_MESSAGE">VERIFY MESSAGE</small></legend>
               <div class="hidden">
                 <div class="col-lg-offset-0 col-lg-12 alert alert-success fade in close" id="vrSuccess" data-dismiss="alert">
-                  <button aria-hidden="true" class="close" type="button">&times;</button> Message verified to be from <span id="vrAddr"></span>
+                  <button aria-hidden="true" class="close" type="button">&times;</button><small>Message verified to be from <span id="vrAddr"></span></small>
                 </div>
                 <div class="col-lg-offset-0 col-lg-12 alert alert-danger fade in" id="vrError">
-                  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button> Message failed to verify!
+                  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button> <small>Message failed to verify!</small>
                 </div>
                 <div class="col-lg-offset-0 col-lg-12 alert alert-warning fade in" id="vrWarning">
-                  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button> Message verified to be from <span id="vrAddr"></span> (but address was not found in the signature!)
+                  <button aria-hidden="true" class="close" data-dismiss="alert" type="button">&times;</button> <small>Message verified to be from <span id="vrAddr"></span> (but address was not found in the signature!)</small>
                 </div>
               </div>
               <div id="vrAlert"></div>
               <div class="form-group">
-                <label class="col-lg-12 control-label" for="vrSig">Signed Message</label>
+                <label class="col-lg-12 control-label" for="vrSig" data-localize="Signed_Message">Signed Message</label>
                 <div class="col-lg-12 controls">
                   <textarea class="form-control selectable" id="vrSig" rows="12" spellcheck="false"></textarea>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-lg-offset-0 col-lg-12 controls">
-                  <button class="btn btn-success btn-lg btn-block" id="vrVerify" type="button">Verify Message</button>&nbsp;&nbsp;<strong><span class="help-inline errormsg" id="vrRes">&nbsp;</span></strong>
+                  <button class="btn btn-success btn-lg btn-block" id="vrVerify" type="button" data-localize="Verify_message_button">Verify Message</button>&nbsp;&nbsp;<strong><span class="help-inline errormsg" id="vrRes">&nbsp;</span></strong>
                 </div>
               </div>
             </fieldset>
@@ -451,35 +485,35 @@
 		<!-- Settings -->
 		<div role="tabpanel" class="tab-pane fade" id="extras">
             <fieldset>
-              <legend><small>EXTRAS</small></legend>
-					<button type="button" id="modeButton" class="btn btn-info btn-lg btn-block">TOGGLE EXPERT MODE</button>
+              <legend><small data-localize="EXTRAS">EXTRAS</small></legend>
+					<button type="button" id="modeButton" class="btn btn-info btn-lg btn-block" data-localize="TOGGLE_EXPERT_MODE">TOGGLE EXPERT MODE</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="renameDeviceButton" class="btn btn-info btn-lg btn-block">RENAME DEVICE</button>
+					<button type="button" id="renameDeviceButton" class="btn btn-info btn-lg btn-block" data-localize="RENAME_DEVICE">RENAME DEVICE</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="hiddenWallet" class="btn btn-success btn-lg btn-block">OPEN HIDDEN WALLET</button>
+					<button type="button" id="hiddenWallet" class="btn btn-success btn-lg btn-block" data-localize="OPEN_HIDDEN_WALLET">OPEN HIDDEN WALLET</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="device_restore_wallet_action" class="btn btn-info btn-lg btn-block ">RESTORE A WALLET</button>
+					<button type="button" id="device_restore_wallet_action" class="btn btn-info btn-lg btn-block " data-localize="RESTORE_A_WALLET">RESTORE A WALLET</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="setPINbutton" class="btn btn-default btn-lg btn-block ">SET/RESET APP PIN</button>
+					<button type="button" id="setPINbutton" class="btn btn-default btn-lg btn-block " data-localize="SET_RESET_APP_PIN">SET/RESET APP PIN</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="renameWallet" class="btn btn-success btn-lg btn-block">RENAME LOADED WALLET</button>
+					<button type="button" id="renameWallet" class="btn btn-success btn-lg btn-block" data-localize="RENAME_LOADED_WALLET">RENAME LOADED WALLET</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="deleteWalletButton" class="btn btn-danger btn-lg btn-block">DELETE WALLET</button>
+					<button type="button" id="deleteWalletButton" class="btn btn-danger btn-lg btn-block" data-localize="DELETE_WALLET">DELETE WALLET</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="resetLanguage" class="btn btn-default btn-lg btn-block">RESET DEVICE LANGUAGE</button>
+					<button type="button" id="resetLanguage" class="btn btn-default btn-lg btn-block" data-localize="RESET_DEVICE_LANGUAGE">RESET DEVICE LANGUAGE</button>
 					&nbsp;
 					&nbsp;
-					<button type="button" id="formatDevice" class="btn btn-danger btn-lg btn-block">FORMAT DEVICE</button>
+					<button type="button" id="formatDevice" class="btn btn-danger btn-lg btn-block" data-localize="FORMAT_DEVICE">FORMAT DEVICE</button>
 					&nbsp;
 					&nbsp;
-					2.1.20
+					2.1.21
             </fieldset>
 		</div>
 
@@ -750,29 +784,23 @@
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
 
-	<script src="libs/moment.js"></script>
-	<script src="libs/jquery/jquery.js"></script>
-	<script src="libs/jquery/jquery.paginate.js"></script>
-	<script src="libs/evothings/evothings.js"></script>
-	<script src="libs/evothings/ui/ui.js"></script>
-	<script src="libs/bitlox/ByteBufferAB.js"></script>
-	<script src="libs/bitlox/ProtoBuf.js"></script>
-	<!-- https://raw.github.com/dcodeIO/ProtoBuf.js/master/dist/ProtoBuf.min.js -->
-
-    <script src="libs/bitlox/sjcl.js"></script> 
-    <script src="libs/bitlox/bitcoinjs-lib.js"></script> 
-    <script src="libs/bitlox/modsqrt.js"></script> 
-    <script src="libs/bitlox/sha512.js"></script> 
-    <script src="libs/bitlox/qrcode.js"></script> 
-    <script src="libs/bitlox/bitcoinsig.js"></script>    
-	<script src="libs/bitlox/Long.min.js"></script>
-
-    <script src="libs/bitlox/bootstrap.js"></script> 
-    <script src="libs/bitlox/underscore-min.js"></script> 
-    <script src="libs/bitlox/coin.js"></script>
-	<script src="cordova.js"></script>
-	<script src="app.js"></script>
+	<script>
 	
+// 		$(function(){
+// 			var opts = { language: "de", pathPrefix: "libs/jquery", skipLanguage: "en-US" };
+// 			$("[data-localize]").localize("bitlox_mobile", opts);
+// 		})
+
+// 		var browser_lang;
+//       $(function(){
+//       	
+//         var opts = { language: de-HK, pathPrefix: "libs/jquery", skipLanguage: "en-US" };
+//         $("[data-localize]").localize("bitlox_mobile", opts)
+//       })
+// 
+// 		// You can also override the language detection, and pass in a language code
+// // 		$("[data-localize]").localize("example", { language: "fr" })
+	</script>
 </body>
 
 </html>
