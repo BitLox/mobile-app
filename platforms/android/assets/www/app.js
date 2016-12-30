@@ -5,7 +5,7 @@
  */
 var platform = cordova.platformId;
 console.log('platform: '+platform);
-	var appVersion = "2.1.18";
+	var appVersion = "2.1.16";
     // "globals" 
 	var ble = null;
 	var incomingData = '';
@@ -32,10 +32,16 @@ console.log('platform: '+platform);
 	var indexToBeUsedToSend = '';
 	var tempTXglobal = '';
 
+	var baseUrl = 'https://bitlox.io/api';
+
+
 	var serverURL = 'https://insight.bitpay.com/api';
 	var serverURLio = 'http://bitlox.io/api';
+// 	        http://bitlox.io/api/addr/17XLaSzT7ZpzEJmFvnqEFycoEUXDaXkPcp/totalReceived',{}, 'text')
 	
-	var qrCopyAddress = '';
+
+
+
 /********************
 *	Utility functions
 */
@@ -132,7 +138,7 @@ console.log('platform: '+platform);
 
     var PUBLIC_KEY_VERSION = 0;
     var PRIVATE_KEY_VERSION = 0x80;
-    var ADDRESS_URL_PREFIX = 'http://blockchain.info'
+//     var ADDRESS_URL_PREFIX = 'http://blockchain.info'
 
     var sgData = null;
     var sgType = 'inputs_io';
@@ -158,7 +164,9 @@ console.log('platform: '+platform);
         }
     }
 
+//     function updateAddr(from, to) {
     function updateAddr(to) {
+//         var sec = from.val();
         var addr = '';
         var eckey = null;
         var compressed = false;
@@ -423,12 +431,16 @@ console.log('platform: '+platform);
 
 		var bb = new ByteBuffer();
         var parseLength = randomnumber.length
+// 	console.log("utx length = " + parseLength);
         var i;
         for (i = 0; i < parseLength; i += 2) {
             var value = randomnumber.substring(i, i + 2);
+// 	console.log("value = " + value);		
             var prefix = "0x";
             var together = prefix.concat(value);
+// 	console.log("together = " + together);
             var result = parseInt(together);
+// 	console.log("result = " + result);
 
             bb.writeUint8(result);
         }
@@ -440,6 +452,7 @@ console.log('platform: '+platform);
 
         tempBuffer = initializeContents.encode();
         var tempTXstring = tempBuffer.toString('hex');
+//         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
         var j;
         var txLengthOriginal = txSize.length;
@@ -447,6 +460,7 @@ console.log('platform: '+platform);
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
+        // 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "0017"; 
@@ -480,12 +494,15 @@ console.log('platform: '+platform);
         var tempTXstring = tempBuffer.toString('hex');
         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
+	console.log("tempTXstring = " + tempTXstring);
+// 	console.log("txSize.length = " + txSize.length);
         var j;
         var txLengthOriginal = txSize.length;
         for (j = 0; j < (8 - txLengthOriginal); j++) {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
+// 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "000B"; 
@@ -520,12 +537,15 @@ console.log('platform: '+platform);
         var tempTXstring = tempBuffer.toString('hex');
         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
+	console.log("tempTXstring = " + tempTXstring);
+// 	console.log("txSize.length = " + txSize.length);
         var j;
         var txLengthOriginal = txSize.length;
         for (j = 0; j < (8 - txLengthOriginal); j++) {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
+// 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "0016"; 
@@ -561,12 +581,15 @@ console.log('platform: '+platform);
         var tempTXstring = tempBuffer.toString('hex');
         document.getElementById("temp_results").innerHTML = tempTXstring;
         txSize = d2h((tempTXstring.length) / 2).toString('hex');
+	console.log("tempTXstring = " + tempTXstring);
+// 	console.log("txSize.length = " + txSize.length);
         var j;
         var txLengthOriginal = txSize.length;
         for (j = 0; j < (8 - txLengthOriginal); j++) {
             var prefix = "0";
             txSize = prefix.concat(txSize);
         }
+// 	console.log("txSizePadded = " + txSize);
         tempTXstring = txSize.concat(tempTXstring);
 
         var command = "0014"; 
@@ -1443,14 +1466,6 @@ console.log("address_handle_index " + address_handle_index);
 		}
 		console.log(JSON.stringify(address_handle_extended_data));
 
-// EXPERIMENTAL
-// 		var change_address_data = []; // empty array
-// 		var kk;
-// 		for (kk=0;kk<1;kk++)
-// 		{
-// 			change_address_data.push({address_handle_root: 0, address_handle_chain: 1, address_handle_index: usechange});
-// 		}
-// 		console.log("change: " + JSON.stringify(change_address_data));
 
 
 
@@ -1509,8 +1524,6 @@ console.log("address_handle_index " + address_handle_index);
       	}
 
         var txContents = new Device.SignTransactionExtended({
-//             "change_address": {address_handle_root: 0, address_handle_chain: 1, address_handle_index: usechange}
-//             ,
         	"address_handle_extended": address_handle_extended_data
         	,
             "transaction_data": bb
@@ -2372,31 +2385,13 @@ console.log("address_handle_index " + address_handle_index);
     }
 
 
-// The BigInteger routines in bitcoinjs-lib are not able to correctly evaluate a decimal number passed.
-// Therefore we have to pass it as a hexadecimal string.
-//  Changes in bitcoinjs-lib:
-// 	4713+ BigInteger.valueOfString = nbvS;
-// 	3014+ function nbvS(i) { var r = nbi(); r.fromString(i,16); return r; }
 
     var valueFromSatoshi = function(number) {
-    	console.log("vFS number " + number);
-    	console.log("vFS d2h(number) " + d2h(number));
-
-        var value = BigInteger.valueOfString(d2h(number),16);
-        console.log("vFS value " + value);
-
+        var value = BigInteger.valueOf(number);
         value = value.toByteArrayUnsigned().reverse();
-        console.log("vFS value bAU R " + value);
         while (value.length < 8) value.push(0);
         return value;
     }
-
-//     var valueFromSatoshi = function(number) {
-//         var value = BigInteger.valueOf(number);
-//         value = value.toByteArrayUnsigned().reverse();
-//         while (value.length < 8) value.push(0);
-//         return value;
-//     }
 
 
 
@@ -2432,27 +2427,6 @@ console.log("address_handle_index " + address_handle_index);
     };
 
 
-//// neither is this!
-    var goodUpdate = function(addr) {
-        return function(data, textStatus, jqXHR) {
-            unspent[addr] = data.unspent_outputs;
-            thisbalance = 0;
-            thispending = 0;
-            for (var x = 0; x < unspent[addr].length; x++) {
-                if (confirmations === 0) {											//fix this to withhold unconfirmed
-                    thispending += unspent[addr][x].value;
-                } else {
-                    thisbalance += unspent[addr][x].value;
-                }
-            }
-            balance += thisbalance;
-            pending += thispending;
-            $("#balance_display").text(balance / 100000000); // Satoshi to BTC
-            $("#pending_display").text(pending / 100000000); // Satoshi to BTC
-            $("#" + addr).children(".balance").text(thisbalance / 100000000);
-            $("#" + addr).children(".pending").text(thispending / 100000000);
-        };
-    }
 
 
 
@@ -2468,31 +2442,6 @@ console.log("address_handle_index " + address_handle_index);
     }
 
 
-// // this is never called!
-
-    var reUpdateBalances = function() {
-        var addresslist = [];
-        for (var k in addresses) {
-            addresslist = addresslist.concat(Object.keys(addresses[k]));
-        }
-        balance = 0;
-        for (var i = 0; i < addresslist.length; i++) {
-            var addr = addresslist[i]
-
-            var jqxhr = $.get('https://blockchain.info/unspent', {
-                    "active": addr,
-                    "cors": true,
-                    "json": true,
-                    "api": "1af870b5-15c4-4584-80c3-03935f97d11b"
-                })
-                .done(goodUpdate(addr))
-                .fail(noUpdate(addr))
-                .always(function() {});
-        }
-    }
-
-
-
     var gotUnspent = function(chain, index, addr) {
         return function(data, textStatus, jqXHR) {
         	console.log("chain " + chain);
@@ -2506,7 +2455,8 @@ console.log("address_handle_index " + address_handle_index);
 				{
 				chain_numerical = 1;
 				}
-            unspent[addr] = data.unspent_outputs;
+//             unspent[addr] = data.unspent_outputs;
+            unspent[addr] = data;
 //             confirmations[addr] = data.confirmations;
             thisbalance = 0;
             thispending = 0;
@@ -2514,11 +2464,11 @@ console.log("address_handle_index " + address_handle_index);
             for (var x = 0; x < unspent[addr].length; x++) {
 //             alert(unspent[addr][x].confirmations);
                 if (unspent[addr][x].confirmations === 0) {											//fix this to withhold unconfirmed
-                    thispending += unspent[addr][x].value;
+                    thispending += unspent[addr][x].amount * 100000000;     
 					unspent[addr][x].chain = chain_numerical;
 					unspent[addr][x].index = index;
                 } else {
-                    thisbalance += unspent[addr][x].value;
+                    thisbalance += unspent[addr][x].amount * 100000000;
 					unspent[addr][x].chain = chain_numerical;
 					unspent[addr][x].index = index;
                 }
@@ -2582,12 +2532,7 @@ console.log("address_handle_index " + address_handle_index);
                     usechange = index + 1;
                 }
 
-                var jqxhr2 = $.get('https://blockchain.info/unspent', {
-                        "active": addr,
-                        "cors": true,
-                        "json": true,
-                        "api": "1af870b5-15c4-4584-80c3-03935f97d11b"
-                    })
+                var jqxhr2 = $.get(baseUrl + '/addr/' + addr + '/utxo')
                     .done(gotUnspent(chain, index, addr))
                     .fail(gotUnspentError(chain, index, addr))
                     .always(function() {});
@@ -2632,8 +2577,8 @@ console.log("address_handle_index " + address_handle_index);
     }
 
     var updateBalance = function(chain, index, addr, callback) {
-        var jqxhr = $.get('https://blockchain.info/q/getreceivedbyaddress/' + addr ,{}, 'text')
-//         var jqxhr = $.get(serverURLio + '/addr/' + addr + '/totalReceived',{}, 'text') // does not return the amount if not confirmed
+//         var jqxhr = $.get('https://blockchain.info/q/getreceivedbyaddress/' + addr ,{}, 'text')
+        var jqxhr = $.get(serverURLio + '/addr/' + addr + '/totalReceived',{}, 'text') // does not return the amount if not confirmed
             .done(checkReceived(chain, index, addr, callback));
     }
 // https://blockchain.info/q/getreceivedbyaddress/17XLaSzT7ZpzEJmFvnqEFycoEUXDaXkPcp
@@ -2684,12 +2629,6 @@ console.log("address_handle_index " + address_handle_index);
 
 
 
-	var getFulls = function(hashes) {
-			$.get('https://bitcoin.toshi.io/api/v0/transactions/' + hashes[0] + '.hex')
-			.done(function(data){
-				fullInputTXHex[0] = data;
-			})
-	}
 
 
 
@@ -2731,23 +2670,14 @@ console.log("address_handle_index " + address_handle_index);
                     var u = unspent[k];
                     for (var i = 0; i < u.length; i++) {
                         var ui = u[i]
-//                       blockchain version
                         var coin = {
-                            "hash": ui.tx_hash,
+                            "hash": ui.txid,
                             "age": ui.confirmations,
                             "address": k,
                             "coin": ui,
                             "chain": ui.chain,
                             "index": ui.index
                         };
-//                         var coin = {
-//                             "hash": Crypto.util.endian(ui.txid),
-//                             "age": ui.confirmations,
-//                             "address": k,
-//                             "coin": ui,
-//                             "chain": ui.chain,
-//                             "index": ui.index
-//                         };
             			console.log("address: " + coin.address);
 //             			console.log("coin: " + coin.coin);
             			console.log("chain: " + coin.chain);
@@ -2777,21 +2707,21 @@ console.log("address_handle_index " + address_handle_index);
                     var coin = sortcoin[i].coin;
                     var tin = new Bitcoin.TransactionIn({
                         outpoint: {
-                            hash: Bitcoin.Util.bytesToBase64(Bitcoin.Util.hexToBytes(coin.tx_hash)), // no .reverse()!
-                            index: coin.tx_output_n
+                            hash: Bitcoin.Util.bytesToBase64(Bitcoin.Util.hexToBytes(coin.txid).reverse()), //  .reverse()!
+                            index: coin.vout
                         },
-                        script: Bitcoin.Util.hexToBytes(coin.script),
+                        script: Bitcoin.Util.hexToBytes(coin.scriptPubKey),
                         sequence: 4294967295
                     });
-					scriptsToReplace[i] = coin.script;
-                    fullInputTransactionHash[i] = Bitcoin.Util.bytesToHex(Bitcoin.Util.hexToBytes(coin.tx_hash).reverse());
-            		console.log("fullInputTransactionHash[" + i + "]: " + fullInputTransactionHash[i]);
-                    fullInputTXindex[i] = coin.tx_output_n;
+					scriptsToReplace[i] = coin.scriptPubKey;
+                    fullInputTransactionHash[i] = Bitcoin.Util.bytesToHex(Bitcoin.Util.hexToBytes(coin.txid));  // no .reverse()!
+//             		alert("fullInputTransactionHash[" + i + "]: " + fullInputTransactionHash[i]);
+                    fullInputTXindex[i] = coin.vout;
                     address_handle_chain[i] = coin.chain;
                     address_handle_index[i] = coin.index;
 
                     tx.addInput(tin);
-                    inamount += coin.value;
+                    inamount += coin.amount * 100000000;
                     usedkeys.push(sortcoin[i].address);
 
                     if (inamount >= target) {
@@ -2840,19 +2770,28 @@ console.log("address_handle_index " + address_handle_index);
                 var fullInputTXHex = [];
                 var how_many_inputs = fullInputTXindex.length;
                 var mCounter = 0;
-                console.log("fullInputTXindex.length: " + how_many_inputs);
+//                 alert("fullInputTXindex.length: " + how_many_inputs);
 
 				$.each(fullInputTransactionHash, function(i, val){
-					console.log("in each: " + i + " " + val);
-					$.get('https://bitcoin.toshi.io/api/v0/transactions/' + val + '.hex')
+// 					alert("in each: " + i + " " + val);
+
+					$.get(baseUrl + '/rawtx/' + val)
 						.done
 						(
 							function(data)
 								{
-									console.log("in each done: "  + data + " i:" + i);
-									fullInputTXHex[i] = data;
+// 									alert(data.rawtx);
+// 									console.log("in each done: "  + data.rawtx + " i:" + i);
+									fullInputTXHex[i] = data.rawtx;
 									mCounter++;
 									if(mCounter == how_many_inputs){prepForSigning(unsignedTransactionToBeCoded, fullInputTXHex, fullInputTXindex, address_handle_chain, address_handle_index)}
+								}
+						)
+						.fail
+						(
+							function()
+								{
+									alert("failed to fetch data");
 								}
 						)
 					} // end each function
@@ -2977,7 +2916,6 @@ console.log("address_handle_index " + address_handle_index);
 		window.plugins.toast.show('Copied to clipboard', 'short', 'center', function(a){console.log('toast success: ' + a)}, function(b){alert('toast error: ' + b)});
 		qrCopyAddress = '';
     });
-
 
 
     $(document).on("click", ".open-sendMsgFrom", function() {
@@ -4606,6 +4544,8 @@ $(document).ready( function()
 		   $(this).attr('data-addr', addressesMatrixReceive[indexToNextDisplay]);
 		   
 		});
+
+
 
 
 //         $('#payments_toggle').click(function() {

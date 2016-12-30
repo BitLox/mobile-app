@@ -7,6 +7,9 @@
         "files": {}
     },
     "installed_plugins": {
+        "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
         "cordova-plugin-ble": {
             "PACKAGE_NAME": "net.projecthunter"
         },
@@ -14,6 +17,9 @@
             "PACKAGE_NAME": "net.projecthunter"
         },
         "cordova-plugin-listpicker": {
+            "PACKAGE_NAME": "net.projecthunter"
+        },
+        "cordova-plugin-statusbar": {
             "PACKAGE_NAME": "net.projecthunter"
         },
         "cordova-plugin-whitelist": {
@@ -25,16 +31,7 @@
         "hu.dpal.phonegap.plugins.PinDialog": {
             "PACKAGE_NAME": "net.projecthunter"
         },
-        "org.cloudsky.cordovaplugins.zbar": {
-            "PACKAGE_NAME": "net.projecthunter"
-        },
-        "cordova-plugin-statusbar": {
-            "PACKAGE_NAME": "net.projecthunter"
-        },
-        "com.verso.cordova.clipboard": {
-            "PACKAGE_NAME": "net.projecthunter"
-        },
-        "cordova-plugin-globalization": {
+        "cordova-plugin-cszbar": {
             "PACKAGE_NAME": "net.projecthunter"
         }
     },

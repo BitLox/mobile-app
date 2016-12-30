@@ -1,4 +1,5 @@
-cordova.define("cordova-plugin-listpicker.ListPicker", function(require, exports, module) { 
+cordova.define("cordova-plugin-listpicker.ListPicker", function(require, exports, module) {
+
 //  ListPicker.js
 //
 // Created by Robert Hovhannisyan on 2014-06-12

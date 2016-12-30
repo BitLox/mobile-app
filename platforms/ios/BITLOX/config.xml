@@ -12,9 +12,6 @@
     <feature name="PinDialog">
         <param name="ios-package" value="CDVPinDialog" />
     </feature>
-    <feature name="CsZBar">
-        <param name="ios-package" value="CsZBar" />
-    </feature>
     <feature name="Notification">
         <param name="ios-package" value="CDVNotification" />
     </feature>
@@ -28,8 +25,8 @@
     <feature name="Clipboard">
         <param name="ios-package" value="CDVClipboard" />
     </feature>
-    <feature name="Globalization">
-        <param name="ios-package" value="CDVGlobalization" />
+    <feature name="CsZBar">
+        <param name="ios-package" value="CsZBar" />
     </feature>
     <name>BITLOX</name>
     <description>

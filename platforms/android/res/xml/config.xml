@@ -1,5 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.projecthunter" version="2.1.20" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.projecthunter" version="2.1.24" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <preference name="loglevel" value="DEBUG" />
+    <feature name="Clipboard">
+        <param name="android-package" value="com.verso.cordova.clipboard.Clipboard" />
+    </feature>
     <feature name="BLE">
         <param name="android-package" value="com.evothings.BLE" />
     </feature>
@@ -8,6 +12,10 @@
     </feature>
     <feature name="ListPicker">
         <param name="android-package" value="am.armsoft.plugins.ListPicker" />
+    </feature>
+    <feature name="StatusBar">
+        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
+        <param name="onload" value="true" />
     </feature>
     <feature name="Whitelist">
         <param name="android-package" value="org.apache.cordova.whitelist.WhitelistPlugin" />
@@ -22,32 +30,6 @@
     <feature name="CsZBar">
         <param name="android-package" value="org.cloudsky.cordovaPlugins.ZBar" />
     </feature>
-    <feature name="StatusBar">
-        <param name="android-package" value="org.apache.cordova.statusbar.StatusBar" />
-        <param name="onload" value="true" />
-    </feature>
-    <feature name="Clipboard">
-        <param name="android-package" value="com.verso.cordova.clipboard.Clipboard" />
-    </feature>
-    <feature name="Globalization">
-        <param name="android-package" value="org.apache.cordova.globalization.Globalization" />
-    </feature>
-    <name>BITLOX</name>
-    <description>
-        Bitlox hardware wallet app
-    </description>
-    <author email="dev@bitlox.io" href="http://bitlox.io">
-        The Bitlox Team
-    </author>
-    <content src="index.html" />
-    <access origin="*" />
-    <allow-intent href="http://*/*" />
-    <allow-intent href="https://*/*" />
-    <allow-intent href="tel:*" />
-    <allow-intent href="sms:*" />
-    <allow-intent href="mailto:*" />
-    <allow-intent href="geo:*" />
-    <icon src="res/bitlox-app-logo-250.png" />
     <allow-intent href="market:*" />
     <icon density="ldpi" src="res/android/icons/drawable-ldpi/icon.png" />
     <icon density="mdpi" src="res/android/icons/drawable-mdpi/icon.png" />
@@ -69,6 +51,21 @@
     <splash density="port-xhdpi" src="res/android/screens/drawable-xhdpi/screen.png" />
     <splash density="port-xxhdpi" src="res/android/screens/drawable-xxhdpi/screen.png" />
     <splash density="port-xxxhdpi" src="res/android/screens/drawable-xxxhdpi/screen.png" />
-    <preference name="loglevel" value="DEBUG" />
+    <name>BITLOX</name>
+    <description>
+        Bitlox hardware wallet app
+    </description>
+    <author email="dev@bitlox.io" href="http://bitlox.io">
+        The Bitlox Team
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <icon src="res/bitlox-app-logo-250.png" />
     <preference name="BackupWebStorage" value="none" />
 </widget>

@@ -30,14 +30,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.cloudsky.cordovaplugins.zbar/www/zbar.js",
-        "id": "org.cloudsky.cordovaplugins.zbar.zBar",
-        "pluginId": "org.cloudsky.cordovaplugins.zbar",
-        "clobbers": [
-            "cloudSky.zBar"
-        ]
-    },
-    {
         "file": "plugins/cordova-plugin-dialogs/www/notification.js",
         "id": "cordova-plugin-dialogs.notification",
         "pluginId": "cordova-plugin-dialogs",
@@ -70,19 +62,11 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/cordova-plugin-globalization/www/GlobalizationError.js",
-        "id": "cordova-plugin-globalization.GlobalizationError",
-        "pluginId": "cordova-plugin-globalization",
+        "file": "plugins/cordova-plugin-cszbar/www/zbar.js",
+        "id": "cordova-plugin-cszbar.zBar",
+        "pluginId": "cordova-plugin-cszbar",
         "clobbers": [
-            "window.GlobalizationError"
-        ]
-    },
-    {
-        "file": "plugins/cordova-plugin-globalization/www/globalization.js",
-        "id": "cordova-plugin-globalization.globalization",
-        "pluginId": "cordova-plugin-globalization",
-        "clobbers": [
-            "navigator.globalization"
+            "cloudSky.zBar"
         ]
     }
 ];
@@ -91,7 +75,7 @@ module.exports.metadata =
 {
     "cordova-plugin-statusbar": "2.0.0",
     "com.verso.cordova.clipboard": "0.1.0",
-    "cordova-plugin-globalization": "1.0.3"
+    "cordova-plugin-cszbar": "1.3.2"
 }
 // BOTTOM OF METADATA
 });

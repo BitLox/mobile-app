@@ -63,16 +63,6 @@ body {
   padding-bottom: 32px;
 }
 
-.img_splash {
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   width: 250px;
-   height: 250px;
-   margin-top: -125px; /* Half the height */
-   margin-left: -125px; /* Half the width */
-}
-
 .glyphicon-qrcode-big {
   font-size: 24px;
   padding-top: 8px;
@@ -122,9 +112,6 @@ body {
 
 .send_to_from .righty { float:right }
 .send_to_from .lefty { float:left }
-
-.qr_display .button-right { float:right }
-.qr_display .button-left { float:left }
 
 .balance-row .balance-right { float:right }
 .balance-row .balance-left { float:left }

@@ -78,7 +78,7 @@
                         <span id="helpBlock_ble" class="help-block">Click "START/STOP SCAN" to show the BLE devices in range.</span>
                     </fieldset>
 				<span id="stopStartScan">
-					<button type="button" onclick="app.onStartScanButton()"  class="btn btn-success btn-lg btn-block " data-localize="start-scan">
+					<button type="button" onclick="app.onStartScanButton()"  class="btn btn-success btn-lg btn-block ">
 						START SCAN
 					</button>
 					&nbsp;
@@ -436,7 +436,7 @@
               <div class="form-group">
                 <label class="col-lg-12 control-label" for="vrSig">Signed Message</label>
                 <div class="col-lg-12 controls">
-                  <textarea class="form-control selectable" id="vrSig" rows="12" spellcheck="false"></textarea>
+                  <textarea class="form-control" id="vrSig" rows="12" spellcheck="false"></textarea>
                 </div>
               </div>
               <div class="form-group">
@@ -479,7 +479,7 @@
 					<button type="button" id="formatDevice" class="btn btn-danger btn-lg btn-block">FORMAT DEVICE</button>
 					&nbsp;
 					&nbsp;
-					2.1.20
+					2.1.17
             </fieldset>
 		</div>
 
@@ -753,9 +753,10 @@
 	<script src="libs/moment.js"></script>
 	<script src="libs/jquery/jquery.js"></script>
 	<script src="libs/jquery/jquery.paginate.js"></script>
-	<script src="libs/jquery/jquery.localize.js"></script>
-	<script src="libs/jquery/jquery.i18n.properties.js"></script>
 	<script src="libs/evothings/evothings.js"></script>
+<!-- 
+	<script src="libs/evothings/easy-ble.js"></script>
+ -->
 	<script src="libs/evothings/ui/ui.js"></script>
 	<script src="libs/bitlox/ByteBufferAB.js"></script>
 	<script src="libs/bitlox/ProtoBuf.js"></script>
@@ -773,18 +774,12 @@
     <script src="libs/bitlox/underscore-min.js"></script> 
     <script src="libs/bitlox/coin.js"></script>
 	<script src="cordova.js"></script>
-	<script src="app.js"></script>
-	<script>
-// 		var browser_lang = jQuery.i18n.browserLang();
-      $(function(){
-      	var browser_lang = jQuery.i18n.browserLang();
-        var opts = { language: browser_lang, pathPrefix: "libs/jquery", skipLanguage: "en-US" };
-        $("[data-localize]").localize("bitlox_mobile", opts)
-      })
-
-		// You can also override the language detection, and pass in a language code
-// 		$("[data-localize]").localize("example", { language: "fr" })
+<!-- 
+	<script language="JavaScript" src="libs/test.js">
 	</script>
+ -->
+	<script src="app.js"></script>
+	
 </body>
 
 </html>

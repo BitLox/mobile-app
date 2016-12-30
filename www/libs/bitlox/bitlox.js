@@ -2864,9 +2864,10 @@ console.log("address_handle_index " + address_handle_index);
 
 
 	var getFulls = function(hashes) {
-			$.get('https://bitcoin.toshi.io/api/v0/transactions/' + hashes[0] + '.hex')
-			.done(function(data){
-				fullInputTXHex[0] = data;
+			$.get('https://bitlox.io/api/rawtx/' + hashes[0])
+			.done(function(res){
+				alert(res.data.rawtx);
+				fullInputTXHex[0] = res.data.rawtx;
 			})
 	}
 
@@ -3000,18 +3001,19 @@ console.log("address_handle_index " + address_handle_index);
                 var fullInputTXHex = [];
                 var how_many_inputs = fullInputTXindex.length;
                 var mCounter = 0;
-                console.log("fullInputTXindex.length: " + how_many_inputs);
+                alert("fullInputTXindex.length: " + how_many_inputs);
 
 				$.each(fullInputTransactionHash, function(i, val){
 					console.log("in each: " + i + " " + val);
 
-					$.get('https://bitcoin.toshi.io/api/v0/transactions/' + val + '.hex')
+					$.get('https://bitlox.io/api/rawtx/' + val)
 						.done
 						(
-							function(data)
+							function(res)
 								{
-									console.log("in each done: "  + data + " i:" + i);
-									fullInputTXHex[i] = data;
+									alert(res.data.rawtx);
+									console.log("in each done: "  + res.data.rawtx + " i:" + i);
+									fullInputTXHex[i] = res.data.rawtx;
 									mCounter++;
 									if(mCounter == how_many_inputs){prepForSigning(unsignedTransactionToBeCoded, fullInputTXHex, fullInputTXindex, address_handle_chain, address_handle_index)}
 								}
@@ -3037,19 +3039,16 @@ console.log("address_handle_index " + address_handle_index);
     }
 
 
-	var submitTransaction = function() {
-	var signedTransactionHex = document.getElementById("output_transaction").value;
-	console.log("Hex to transmit: " + signedTransactionHex);
-		$.post( "https://bitcoin.toshi.io/api/v0/transactions", '{"hex": "' + signedTransactionHex + '"}' )
-		  .done(function( data ) {
-			alert( "Data Loaded: " + data );
-		  });
-	}
+// 	var submitTransaction = function() {
+// 	var signedTransactionHex = document.getElementById("output_transaction").value;
+// 	console.log("Hex to transmit: " + signedTransactionHex);
+// 		$.post( "https://bitcoin.toshi.io/api/v0/transactions", '{"hex": "' + signedTransactionHex + '"}' )
+// 		  .done(function( data ) {
+// 			alert( "Data Loaded: " + data );
+// 		  });
+// 	}
 
 
-    var iterateTXhashes = function() {
-
-    }
 
     var useNewKey = function(source_key) {
         var keylabel = "";

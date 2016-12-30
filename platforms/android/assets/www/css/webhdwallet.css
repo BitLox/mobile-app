@@ -113,9 +113,6 @@ body {
 .send_to_from .righty { float:right }
 .send_to_from .lefty { float:left }
 
-.qr_display .button-right { float:right }
-.qr_display .button-left { float:left }
-
 .balance-row .balance-right { float:right }
 .balance-row .balance-left { float:left }
 

@@ -31,14 +31,6 @@
         "is_top_level": true,
         "variables": {}
     },
-    "org.cloudsky.cordovaplugins.zbar": {
-        "source": {
-            "type": "registry",
-            "id": "org.cloudsky.cordovaplugins.zbar"
-        },
-        "is_top_level": true,
-        "variables": {}
-    },
     "cordova-plugin-dialogs": {
         "source": {
             "type": "registry",
@@ -72,10 +64,10 @@
         "is_top_level": true,
         "variables": {}
     },
-    "cordova-plugin-globalization": {
+    "cordova-plugin-cszbar": {
         "source": {
-            "type": "registry",
-            "id": "cordova-plugin-globalization"
+            "type": "local",
+            "path": "/Users/player1/Desktop/From USB/mobile-app/plugins/cordova-plugin-cszbar"
         },
         "is_top_level": true,
         "variables": {}
